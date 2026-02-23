@@ -1,0 +1,47 @@
+export const experiences = [
+  {
+    id: "square",
+    title: "Software Developer",
+    company: "Square Infosoft",
+    location: "Surat, India",
+    start: "July 2024",
+    end: "Present",
+    color: "#ff6b6b",
+    points: [
+      "Managed end-to-end backend development including system design, implementation, testing, and deployment of scalable applications.",
+      "Designed and implemented robust APIs and complex business logic, including event recurrence flows and calendar integrations.",
+      "Worked extensively with AWS and DigitalOcean for hosting, deployment, and server management across staging and production environments.",
+      "Implemented real-time features using WebSocket and Socket.IO for live updates and notifications.",
+      "Mentored junior developers on clean architecture, scalable backend design, and best coding practices.",
+    ],
+  },
+  {
+    id: "jkl",
+    title: "Software Developer",
+    company: "JKL Infotech",
+    location: "Gandhinagar, India",
+    start: "June 2022",
+    end: "July 2024",
+    color: "#4d96ff",
+    points: [
+      "Built scalable server-side applications using NestJS with TypeORM.",
+      "Designed and optimized databases using PostgreSQL for efficient data management.",
+      "Developed and implemented unit test cases to ensure code quality and best practices.",
+      "Collaborated with cross-functional teams to deliver high-quality projects on time.",
+    ],
+  },
+  {
+    id: "wrt",
+    title: "Project Intern",
+    company: "WRT Infotech",
+    location: "Surat, India",
+    start: "Dec 2021",
+    end: "April 2022",
+    color: "#6bcb77",
+    points: [
+      "Gained hands-on experience in developing a Courier Management System.",
+      "Collaborated with team members to ensure seamless integration and functionality.",
+      "Leveraged React.js, Node.js, and MongoDB for full-stack development with deployments on Vercel, Netlify, and Heroku.",
+    ],
+  },
+];
