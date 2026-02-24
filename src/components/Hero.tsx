@@ -17,7 +17,6 @@ export default function Hero() {
 
   return (
     <>
-      {/* Cursor Glow */}
       <div
         ref={glowRef}
         style={{
@@ -25,7 +24,8 @@ export default function Hero() {
           width: "300px",
           height: "300px",
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(77,150,255,0.07), transparent 70%)",
+          background:
+            "radial-gradient(circle, rgba(77,150,255,0.07), transparent 70%)",
           pointerEvents: "none",
           transform: "translate(-50%, -50%)",
           transition: "left 0.3s ease, top 0.3s ease",
@@ -33,8 +33,55 @@ export default function Hero() {
         }}
       />
 
+      <style>{`
+        @keyframes float {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          33% { transform: translate(30px, -30px) scale(1.05); }
+          66% { transform: translate(-20px, 20px) scale(0.95); }
+        }
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.5; transform: scale(0.8); }
+        }
+        .hero-cta-btn-primary {
+          padding: 14px 32px;
+          background: linear-gradient(135deg, var(--c1), var(--c5));
+          color: white;
+          border-radius: 12px;
+          font-size: 0.95rem;
+          font-weight: 500;
+          text-decoration: none;
+          box-shadow: 0 0 30px rgba(255,107,107,0.3);
+          transition: transform 0.2s, box-shadow 0.2s;
+          text-align: center;
+        }
+        .hero-cta-btn-secondary {
+          padding: 14px 32px;
+          background: transparent;
+          color: var(--text);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 12px;
+          font-size: 0.95rem;
+          font-weight: 500;
+          text-decoration: none;
+          transition: border-color 0.2s, background 0.2s;
+          text-align: center;
+        }
+        @media (max-width: 768px) {
+          .hero-cta { flex-direction: column !important; }
+          .hero-cta-btn-primary, .hero-cta-btn-secondary { width: 100% !important; }
+          .hero-stats { gap: 24px !important; }
+          .stat-num { font-size: 1.8rem !important; }
+        }
+      `}</style>
+
       <section
         id="about"
+        className="hero-section"
         style={{
           minHeight: "100vh",
           display: "flex",
@@ -44,11 +91,29 @@ export default function Hero() {
           overflow: "hidden",
         }}
       >
-        {/* Animated Blobs */}
+        {/* Blobs */}
         {[
-          { color: "var(--c1)", top: "-100px", right: "-100px", delay: "0s", size: "500px" },
-          { color: "var(--c5)", bottom: "-50px", left: "30%", delay: "3s", size: "400px" },
-          { color: "var(--c4)", top: "30%", left: "-50px", delay: "6s", size: "300px" },
+          {
+            color: "var(--c1)",
+            top: "-100px",
+            right: "-100px",
+            delay: "0s",
+            size: "500px",
+          },
+          {
+            color: "var(--c5)",
+            bottom: "-50px",
+            left: "30%",
+            delay: "3s",
+            size: "400px",
+          },
+          {
+            color: "var(--c4)",
+            top: "30%",
+            left: "-50px",
+            delay: "6s",
+            size: "300px",
+          },
         ].map((blob, i) => (
           <div
             key={i}
@@ -60,7 +125,7 @@ export default function Hero() {
               background: blob.color,
               filter: "blur(80px)",
               opacity: 0.12,
-              top: blob.top,
+              top: (blob as any).top,
               bottom: (blob as any).bottom,
               left: (blob as any).left,
               right: (blob as any).right,
@@ -69,24 +134,15 @@ export default function Hero() {
           />
         ))}
 
-        <style>{`
-          @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -30px) scale(1.05); }
-            66% { transform: translate(-20px, 20px) scale(0.95); }
-          }
-          @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-          @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.8); }
-          }
-        `}</style>
-
-        <div style={{ position: "relative", zIndex: 2, maxWidth: "900px" }}>
-          {/* Available Tag */}
+        <div
+          style={{
+            position: "relative",
+            zIndex: 2,
+            maxWidth: "900px",
+            width: "100%",
+          }}
+        >
+          {/* Tag */}
           <div
             style={{
               display: "inline-flex",
@@ -122,21 +178,20 @@ export default function Hero() {
             style={{
               fontFamily: "var(--font-syne)",
               fontWeight: 800,
-              fontSize: "clamp(3rem, 7vw, 5.5rem)",
+              fontSize: "clamp(2.5rem, 7vw, 5.5rem)",
               lineHeight: 1.05,
               letterSpacing: "-0.03em",
               marginBottom: "24px",
               animation: "fadeUp 0.8s ease 0.1s both",
             }}
           >
-            Hi, I&apos;m{" "}
-            <span className="gradient-text">Nikita Surani</span> 👋
+            Hi, I&apos;m <span className="gradient-text">Nikita Surani</span> 👋
           </h1>
 
           {/* Description */}
           <p
             style={{
-              fontSize: "1.1rem",
+              fontSize: "clamp(0.95rem, 2vw, 1.1rem)",
               color: "var(--muted)",
               lineHeight: 1.7,
               maxWidth: "560px",
@@ -146,12 +201,13 @@ export default function Hero() {
             }}
           >
             Full Stack Developer with 3.5+ years of experience building scalable
-            backend systems and modern web applications. Specializing in Node.js,
-            NestJS, and cloud platforms.
+            backend systems and modern web applications. Specializing in
+            Node.js, NestJS, and cloud platforms.
           </p>
 
-          {/* CTA Buttons */}
+          {/* CTA */}
           <div
+            className="hero-cta"
             style={{
               display: "flex",
               gap: "16px",
@@ -159,53 +215,14 @@ export default function Hero() {
               animation: "fadeUp 0.8s ease 0.3s both",
             }}
           >
-            <a
-              href="#projects"
-              style={{
-                padding: "14px 32px",
-                background: "linear-gradient(135deg, var(--c1), var(--c5))",
-                color: "white",
-                borderRadius: "12px",
-                fontSize: "0.95rem",
-                fontWeight: 500,
-                textDecoration: "none",
-                boxShadow: "0 0 30px rgba(255,107,107,0.3)",
-                transition: "transform 0.2s, box-shadow 0.2s",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-2px)";
-                e.currentTarget.style.boxShadow = "0 0 50px rgba(255,107,107,0.5)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = "0 0 30px rgba(255,107,107,0.3)";
-              }}
-            >
+            <a href="#projects" className="hero-cta-btn-primary">
               View My Work →
             </a>
             <a
               href="https://www.linkedin.com/in/nikita-surani/"
               target="_blank"
               rel="noreferrer"
-              style={{
-                padding: "14px 32px",
-                background: "transparent",
-                color: "var(--text)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                borderRadius: "12px",
-                fontSize: "0.95rem",
-                fontWeight: 500,
-                textDecoration: "none",
-                transition: "border-color 0.2s, background 0.2s",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "rgba(255,255,255,0.25)";
-                e.currentTarget.style.background = "rgba(255,255,255,0.05)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
-                e.currentTarget.style.background = "transparent";
-              }}
+              className="hero-cta-btn-secondary"
             >
               LinkedIn →
             </a>
@@ -213,6 +230,7 @@ export default function Hero() {
 
           {/* Stats */}
           <div
+            className="hero-stats"
             style={{
               display: "flex",
               gap: "48px",
@@ -230,6 +248,7 @@ export default function Hero() {
             ].map((stat) => (
               <div key={stat.label}>
                 <div
+                  className="stat-num"
                   style={{
                     fontFamily: "var(--font-syne)",
                     fontSize: "2.2rem",
@@ -242,7 +261,13 @@ export default function Hero() {
                 >
                   {stat.num}
                 </div>
-                <div style={{ fontSize: "0.85rem", color: "var(--muted)", marginTop: "2px" }}>
+                <div
+                  style={{
+                    fontSize: "0.85rem",
+                    color: "var(--muted)",
+                    marginTop: "2px",
+                  }}
+                >
                   {stat.label}
                 </div>
               </div>

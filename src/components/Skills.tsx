@@ -52,16 +52,21 @@ export default function Skills() {
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      id="skills"
-      style={{ padding: "100px 60px", background: "var(--surface)" }}
-    >
+    <>
       <style>{`
         .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
+        @media (max-width: 768px) {
+          .skill-card { padding: 24px !important; }
+          .skill-icon { width: 36px !important; height: 36px !important; font-size: 1.1rem !important; }
+        }
       `}</style>
 
+      <section
+        ref={sectionRef}
+        id="skills"
+        style={{ padding: "100px 60px", background: "var(--surface)" }}
+      >
       <div className="section-label">What I know</div>
       <h2
         style={{
@@ -105,7 +110,7 @@ export default function Skills() {
                 (el.querySelector(".top-bar") as HTMLElement).style.opacity = "0";
               }}
             >
-              <div
+              <div className="skill-card"
                 style={{
                   background: "var(--card)",
                   border: "1px solid var(--border)",
@@ -129,7 +134,7 @@ export default function Skills() {
                     transition: "opacity 0.3s",
                   }}
                 />
-                <div
+                <div className="skill-icon"
                   style={{
                     width: "44px", height: "44px",
                     borderRadius: "10px",
@@ -174,5 +179,6 @@ export default function Skills() {
         })}
       </div>
     </section>
+    </>
   );
 }

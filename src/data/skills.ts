@@ -18,14 +18,14 @@ export const skills = [
     icon: "🎨",
     name: "Frontend",
     color: "c3",
-    tags: ["Next.js", "React.js", "Tailwind CSS"],
+    tags: ["Next.js", "React.js", "Tailwind CSS","MUI", "Ant Design", "React Query" ],
   },
   {
     id: "databases",
     icon: "🗄️",
     name: "Databases",
     color: "c4",
-    tags: ["PostgreSQL", "MySQL", "MongoDB"],
+    tags: ["PostgreSQL", "MySQL", "MongoDB", "Firebase (Firestore)"],
   },
   {
     id: "cloud",

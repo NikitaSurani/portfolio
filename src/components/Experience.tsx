@@ -19,12 +19,30 @@ export default function Experience() {
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      id="experience"
-      style={{ padding: "100px 60px" }}
-    >
-      <div className="section-label">Where I&apos;ve worked</div>
+    <>
+      <style>{`
+        /* timeline dot horizontal offset adjusts for mobile to prevent overflow */
+        #experience { overflow-x: visible; }
+        .timeline-dot {
+          left: -43px;
+        }
+        @media (max-width: 768px) {
+          .timeline-dot { left: -30px; }
+          /* shrink card padding and text on small screens */
+          .exp-card { padding: 24px !important; }
+          .exp-card div { font-size: 0.9rem !important; }
+        }
+        @media (max-width: 480px) {
+          .timeline-dot { left: -20px; }
+        }
+      `}</style>
+
+      <section
+        ref={sectionRef}
+        id="experience"
+        style={{ padding: "100px 60px" }}
+      >
+        <div className="section-label">Where I&apos;ve worked</div>
       <h2
         style={{
           fontFamily: "var(--font-syne)",
@@ -75,7 +93,7 @@ export default function Experience() {
             }}
           >
             {/* Timeline dot */}
-            <div
+            <div className="timeline-dot"
               style={{
                 position: "absolute",
                 left: "-43px", top: "36px",
@@ -174,5 +192,6 @@ export default function Experience() {
         ))}
       </div>
     </section>
+    </>
   );
 }

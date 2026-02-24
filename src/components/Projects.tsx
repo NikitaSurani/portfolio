@@ -37,11 +37,19 @@ export default function Projects() {
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      id="projects"
-      style={{ padding: "100px 60px", background: "var(--surface)" }}
-    >
+    <>
+      <style>{`
+        @media (max-width: 768px) {
+          .project-card { padding: 24px !important; }
+          .project-bignum { font-size: 2.5rem !important; }
+        }
+      `}</style>
+
+      <section
+        ref={sectionRef}
+        id="projects"
+        style={{ padding: "100px 60px", background: "var(--surface)" }}
+      >
       <div className="section-label">What I&apos;ve built</div>
       <h2
         style={{
@@ -83,7 +91,7 @@ export default function Projects() {
                 el.style.borderColor = "var(--border)";
               }}
             >
-              <div
+              <div className="project-card"
                 style={{
                   background: "var(--card)",
                   border: "1px solid var(--border)",
@@ -96,7 +104,7 @@ export default function Projects() {
                 }}
               >
                 {/* Big number */}
-                <div
+                <div className="project-bignum"
                   style={{
                     fontFamily: "var(--font-syne)",
                     fontSize: "3rem",
@@ -201,6 +209,5 @@ export default function Projects() {
           );
         })}
       </div>
-    </section>
-  );
+    </section>    </>  );
 }

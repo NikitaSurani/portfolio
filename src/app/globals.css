@@ -76,3 +76,51 @@ body::before {
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+/* responsive adjustments for mobile */
+@media (max-width: 768px) {
+  /* reduce section padding */
+  section[id] {
+    padding: 80px 20px !important;
+  }
+
+  /* hero specifics */
+  #about {
+    padding-top: 100px !important;
+    padding-bottom: 60px !important;
+  }
+  #about h1 {
+    font-size: clamp(2rem, 8vw, 4rem) !important;
+  }
+  #about p {
+    font-size: 1rem !important;
+    max-width: 100% !important;
+  }
+  /* tighten stats area */
+  #about > div > div:last-child {
+    gap: 24px !important;
+    margin-top: 32px !important;
+    padding-top: 32px !important;
+  }
+  #about a {
+    padding: 12px 24px !important;
+  }
+
+  /* navbar tweaks */
+  nav {
+    padding: 12px 24px !important;
+  }
+  nav ul {
+    gap: 16px !important;
+  }
+  nav a {
+    font-size: 0.8rem !important;
+  }
+
+  /* footer tweaks */
+  footer {
+    padding: 20px 24px !important;
+    flex-direction: column !important;
+    text-align: center;
+  }
+}
