@@ -7,7 +7,15 @@ export const projects = [
     title: "Go Someplace – Travel Social App",
     description:
       "Social platform for travelers to connect, share trips, and discover experiences with real-time chat and push notifications.",
-    tech: ["NestJS", "Prisma ORM", "MySQL", "Firebase", "Socket.io", "S3", "DigitalOcean"],
+    tech: [
+      "NestJS",
+      "Prisma ORM",
+      "MySQL",
+      "Firebase",
+      "Socket.io",
+      "S3",
+      "DigitalOcean",
+    ],
     link: "",
   },
   {
@@ -18,7 +26,14 @@ export const projects = [
     title: "TGG Accounting",
     description:
       "Comprehensive accounting platform for outsourced business advisory services including payments, budgets, and asset tracking.",
-    tech: ["NestJS", "TypeORM", "PostgreSQL", "class-validator", "ESLint", "Prettier"],
+    tech: [
+      "NestJS",
+      "TypeORM",
+      "PostgreSQL",
+      "class-validator",
+      "ESLint",
+      "Prettier",
+    ],
     link: "",
   },
   {
@@ -29,8 +44,17 @@ export const projects = [
     title: "Quanten – Entertainment Platform",
     description:
       "Media insights platform for film producers to evaluate audience reactions through data visualization and real-time analytics.",
-    tech: ["Next.js", "TypeScript", "Chart.js", "Firebase", "IMDb API", "Intercom", "ZeptoMail"],
-    link: "https://www.quanten.co",
+    tech: [
+      "Next.js",
+      "TypeScript",
+      "Chart.js",
+      "Firebase",
+      "IMDb API",
+      "Intercom",
+      "ZeptoMail",
+    ],
+    // link: "https://www.quanten.co",
+
   },
   {
     id: "asset",
@@ -61,7 +85,7 @@ export const projects = [
     badgeColor: "frontend",
     title: "Reward Genix",
     description:
-      "Modern rewards and loyalty platform with dynamic UI, interactive dashboards, and user engagement features.",
+      "Modern rewards and loyalty platform with dynamic UI,Handle with in 3 mode only cash, cash+points and points only.",
     tech: ["React.js", "Next.js", "Tailwind CSS"],
     link: "",
   },
@@ -81,7 +105,8 @@ export const projects = [
     badge: "Backend",
     badgeColor: "backend",
     title: "CREW",
-    description: "Backend system built with scalable NestJS architecture.",
+    description:
+      "Crew is a smart household management app that helps roommates, partners, and families organize tasks, track shared expenses, and manage daily responsibilities efficiently for smoother shared living.",
     tech: ["NestJS", "PostgreSQL", "TypeORM"],
     link: "",
   },
@@ -91,8 +116,10 @@ export const projects = [
     badge: "Backend",
     badgeColor: "backend",
     title: "TravelBuddy (EKAKI)",
-    description: "Travel companion backend with RESTful APIs and data management.",
+    description:
+      "Ekaki is a social platform that helps solo travelers find companions, connect through chat, create travel groups, and share travel experiences within a supportive community.",
     tech: ["NestJS", "MySQL", "Prisma"],
+    // link: "https://ekaki.travel/",
     link: "",
   },
   {
@@ -101,7 +128,8 @@ export const projects = [
     badge: "Backend",
     badgeColor: "backend",
     title: "RiddIo",
-    description: "Scalable backend application with clean modular architecture.",
+    description:
+      "Scalable backend application with clean modular architecture.",
     tech: ["NestJS", "PostgreSQL", "TypeORM"],
     link: "",
   },
@@ -111,7 +139,8 @@ export const projects = [
     badge: "Backend",
     badgeColor: "backend",
     title: "Invie",
-    description: "Backend service with robust API design and database management.",
+    description:
+      "Backend service with robust API design and database management.",
     tech: ["NestJS", "PostgreSQL", "TypeORM"],
     link: "",
   },

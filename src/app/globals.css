@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ===== DARK THEME (default) ===== */
 :root {
   --bg: #080810;
   --surface: #0f0f1a;
@@ -16,24 +17,26 @@
   --muted: #7070a0;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* ===== LIGHT THEME ===== */
+:root[data-theme="light"] {
+  --bg: #f8f8ff;
+  --surface: #f0f0fa;
+  --card: #ffffff;
+  --border: rgba(0, 0, 0, 0.08);
+  --text: #0a0a1a;
+  --muted: #6060a0;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-dm-sans), sans-serif;
   overflow-x: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* Noise texture overlay */
 body::before {
   content: "";
   position: fixed;
@@ -62,7 +65,6 @@ body::before {
   color: var(--muted);
   margin-bottom: 16px;
 }
-
 .section-label::before {
   content: "";
   display: block;
@@ -71,56 +73,50 @@ body::before {
   background: linear-gradient(90deg, var(--c4), transparent);
 }
 
-/* Scrollbar */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+::-webkit-scrollbar-thumb { background: rgba(128,128,180,0.3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(128,128,180,0.5); }
 
-/* responsive adjustments for mobile */
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+  .hero-section { padding: 120px 40px 80px !important; }
+  .section-pad { padding: 80px 40px !important; }
+  .projects-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .skills-grid { grid-template-columns: repeat(2, 1fr) !important; }
+}
+
 @media (max-width: 768px) {
-  /* reduce section padding */
-  section[id] {
-    padding: 80px 20px !important;
-  }
+  .navbar { padding: 14px 20px !important; }
+  .nav-links { display: none !important; }
+  .navbar-hire { font-size: 0.8rem !important; padding: 8px 16px !important; }
+  .hero-section { padding: 100px 20px 60px !important; }
+  .hero-cta { flex-direction: column !important; }
+  .hero-cta a { text-align: center !important; width: 100% !important; }
+  .hero-stats { gap: 24px !important; flex-wrap: wrap !important; }
+  .section-pad { padding: 70px 20px !important; }
+  .skills-grid { grid-template-columns: 1fr !important; }
+  .exp-timeline { padding-left: 20px !important; }
+  .exp-dot { left: -30px !important; }
+  .exp-header { flex-direction: column !important; align-items: flex-start !important; }
+  .exp-card { padding: 20px !important; }
+  .projects-grid { grid-template-columns: 1fr !important; }
+  .footer { padding: 28px 20px !important; flex-direction: column !important; text-align: center !important; align-items: center !important; }
+  .mobile-menu-btn { display: flex !important; }
+}
 
-  /* hero specifics */
-  #about {
-    padding-top: 100px !important;
-    padding-bottom: 60px !important;
-  }
-  #about h1 {
-    font-size: clamp(2rem, 8vw, 4rem) !important;
-  }
-  #about p {
-    font-size: 1rem !important;
-    max-width: 100% !important;
-  }
-  /* tighten stats area */
-  #about > div > div:last-child {
-    gap: 24px !important;
-    margin-top: 32px !important;
-    padding-top: 32px !important;
-  }
-  #about a {
-    padding: 12px 24px !important;
-  }
-
-  /* navbar tweaks */
-  nav {
-    padding: 12px 24px !important;
-  }
-  nav ul {
-    gap: 16px !important;
-  }
-  nav a {
-    font-size: 0.8rem !important;
-  }
-
-  /* footer tweaks */
-  footer {
-    padding: 20px 24px !important;
-    flex-direction: column !important;
-    text-align: center;
-  }
+@media (max-width: 480px) {
+  .hero-section { padding: 90px 16px 50px !important; }
+  .section-pad { padding: 60px 16px !important; }
+  .stat-num { font-size: 1.8rem !important; }
 }
