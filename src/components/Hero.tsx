@@ -200,9 +200,14 @@ export default function Hero() {
               animation: "fadeUp 0.8s ease 0.2s both",
             }}
           >
-            Full Stack Developer with 3.5+ years of experience building scalable
+            {/* Full Stack Developer with 3.5+ years of experience building scalable
             backend systems and modern web applications. Specializing in
-            Node.js, NestJS, and cloud platforms.
+            Node.js, NestJS, and cloud platforms. */}
+            Full Stack Developer with 3.5+ years of experience building
+            production-grade backend systems in NestJS, Node.js, and TypeScript
+            — with solid frontend skills in React.js and Next.js. Shipped
+            real-time features and scalable APIs across multiple production
+            applications.
           </p>
 
           {/* CTA */}

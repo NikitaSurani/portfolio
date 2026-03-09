@@ -75,7 +75,7 @@ export const projects = [
     title: "Event Management",
     description:
       "Scalable event management platform with calendar sync, recurrence flows, and Google Calendar integration.",
-    tech: ["NestJS", "Google Calendar", "iCal", "WebSocket", "PostgreSQL"],
+    tech: ["NestJS", "WebSocket", "PostgreSQL", "Matrix"],
     link: "",
   },
   {
@@ -85,7 +85,7 @@ export const projects = [
     badgeColor: "frontend",
     title: "Reward Genix",
     description:
-      "Modern rewards and loyalty platform with dynamic UI,Handle with in 3 mode only cash, cash+points and points only.",
+      "Modern rewards and loyalty platform with dynamic UI,Handle with in 3 mode only cash, cash+points and only points.",
     tech: ["React.js", "Next.js", "Tailwind CSS"],
     link: "",
   },
@@ -107,7 +107,7 @@ export const projects = [
     title: "CREW",
     description:
       "Crew is a smart household management app that helps roommates, partners, and families organize tasks, track shared expenses, and manage daily responsibilities efficiently for smoother shared living.",
-    tech: ["NestJS", "PostgreSQL", "TypeORM"],
+    tech: ["NestJS", "MySQL", "Prisma", "Socket.io", "Firebase", "AWS S3"],
     link: "",
   },
   {
@@ -118,7 +118,7 @@ export const projects = [
     title: "TravelBuddy (EKAKI)",
     description:
       "Ekaki is a social platform that helps solo travelers find companions, connect through chat, create travel groups, and share travel experiences within a supportive community.",
-    tech: ["NestJS", "MySQL", "Prisma"],
+    tech: ["NestJS", "MySQL", "Prisma", "Socket.io", "Firebase", "AWS S3"],
     // link: "https://ekaki.travel/",
     link: "",
   },
@@ -130,7 +130,7 @@ export const projects = [
     title: "RiddIo",
     description:
       "Scalable backend application with clean modular architecture.",
-    tech: ["NestJS", "PostgreSQL", "TypeORM"],
+    tech: ["NestJS", "MySQL", "TypeORM"],
     link: "",
   },
   {
@@ -141,7 +141,7 @@ export const projects = [
     title: "Invie",
     description:
       "Backend service with robust API design and database management.",
-    tech: ["NestJS", "PostgreSQL", "TypeORM"],
+    tech: ["NestJS", "MySQL", "TypeORM", "Google Calendar", "iCal"],
     link: "",
   },
 ];
