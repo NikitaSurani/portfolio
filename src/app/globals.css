@@ -47,6 +47,39 @@ body::before {
   opacity: 0.5;
 }
 
+/* ===== SKIP LINK (accessibility) ===== */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1001;
+  padding: 12px 24px;
+  background: var(--c4);
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: top 0.2s ease;
+  box-shadow: 0 4px 20px rgba(77, 150, 255, 0.4);
+}
+.skip-link:focus {
+  top: 16px;
+  outline: 2px solid white;
+  outline-offset: 4px;
+}
+
+/* ===== FOCUS VISIBLE (keyboard accessibility) ===== */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--c4);
+  outline-offset: 4px;
+}
+a:focus-visible {
+  border-radius: 4px;
+}
+
 .gradient-text {
   background: linear-gradient(135deg, var(--c1) 0%, var(--c2) 35%, var(--c5) 70%, var(--c4) 100%);
   -webkit-background-clip: text;
@@ -88,35 +121,26 @@ body::before {
 ::-webkit-scrollbar-thumb { background: rgba(128,128,180,0.3); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(128,128,180,0.5); }
 
-/* ========== RESPONSIVE ========== */
+/* ========== RESPONSIVE OVERRIDES ========== */
 @media (max-width: 1024px) {
   .hero-section { padding: 120px 40px 80px !important; }
   .section-pad { padding: 80px 40px !important; }
   .projects-grid { grid-template-columns: repeat(2, 1fr) !important; }
-  .skills-grid { grid-template-columns: repeat(2, 1fr) !important; }
 }
 
 @media (max-width: 768px) {
-  .navbar { padding: 14px 20px !important; }
-  .nav-links { display: none !important; }
-  .navbar-hire { font-size: 0.8rem !important; padding: 8px 16px !important; }
   .hero-section { padding: 100px 20px 60px !important; }
   .hero-cta { flex-direction: column !important; }
   .hero-cta a { text-align: center !important; width: 100% !important; }
   .hero-stats { gap: 24px !important; flex-wrap: wrap !important; }
   .section-pad { padding: 70px 20px !important; }
-  .skills-grid { grid-template-columns: 1fr !important; }
-  .exp-timeline { padding-left: 20px !important; }
-  .exp-dot { left: -30px !important; }
-  .exp-header { flex-direction: column !important; align-items: flex-start !important; }
-  .exp-card { padding: 20px !important; }
   .projects-grid { grid-template-columns: 1fr !important; }
-  .footer { padding: 28px 20px !important; flex-direction: column !important; text-align: center !important; align-items: center !important; }
-  .mobile-menu-btn { display: flex !important; }
+  .footer-inner { padding: 28px 20px !important; flex-direction: column !important; text-align: center !important; align-items: center !important; gap: 20px !important; }
 }
 
 @media (max-width: 480px) {
   .hero-section { padding: 90px 16px 50px !important; }
   .section-pad { padding: 60px 16px !important; }
-  .stat-num { font-size: 1.8rem !important; }
+  .stat-num { font-size: 1.75rem !important; }
+  .footer-inner { padding: 24px 16px !important; }
 }

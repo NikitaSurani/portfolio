@@ -7,7 +7,10 @@ import Experience from "@/components/Experience";
 
 export default function Home() {
   return (
-    <main>
+    <main id="main-content">
+      <a href="#about" className="skip-link">
+        Skip to main content
+      </a>
       <Navbar />
       <Hero />
       <Skills />

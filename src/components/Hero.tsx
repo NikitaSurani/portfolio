@@ -59,6 +59,7 @@ export default function Hero() {
           transition: transform 0.2s, box-shadow 0.2s;
           text-align: center;
         }
+        .hero-cta-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 24px rgba(255,107,107,0.35); }
         .hero-cta-btn-secondary {
           padding: 14px 32px;
           background: transparent;
@@ -71,11 +72,16 @@ export default function Hero() {
           transition: border-color 0.2s, background 0.2s;
           text-align: center;
         }
+        .hero-cta-btn-secondary:hover { border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.04); }
         @media (max-width: 768px) {
           .hero-cta { flex-direction: column !important; }
           .hero-cta-btn-primary, .hero-cta-btn-secondary { width: 100% !important; }
           .hero-stats { gap: 24px !important; }
           .stat-num { font-size: 1.8rem !important; }
+        }
+        @media (max-width: 480px) {
+          .hero-section .hero-inner { padding: 0; }
+          .stat-num { font-size: 1.65rem !important; }
         }
       `}</style>
 
@@ -135,11 +141,13 @@ export default function Hero() {
         ))}
 
         <div
+          className="hero-inner"
           style={{
             position: "relative",
             zIndex: 2,
-            maxWidth: "900px",
+            maxWidth: "min(900px, 100%)",
             width: "100%",
+            margin: "0 auto",
           }}
         >
           {/* Tag */}

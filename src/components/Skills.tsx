@@ -56,129 +56,141 @@ export default function Skills() {
       <style>{`
         .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
         .reveal.visible { opacity: 1; transform: translateY(0); }
+        .skill-card-wrapper { transition: transform 0.3s ease; }
+        .skill-card-wrapper:hover { transform: translateY(-4px); }
+        .skill-card { transition: border-color 0.3s, box-shadow 0.3s; }
+        .skill-card .top-bar { transition: opacity 0.3s; }
+        .skill-card-wrapper:hover .skill-card { border-color: var(--skill-hover-border); box-shadow: var(--skill-hover-shadow); }
+        .skill-card-wrapper:hover .skill-card .top-bar { opacity: 1; }
         @media (max-width: 768px) {
-          .skill-card { padding: 24px !important; }
-          .skill-icon { width: 36px !important; height: 36px !important; font-size: 1.1rem !important; }
+          .skill-card { padding: 20px !important; }
+          .skill-icon { width: 40px !important; height: 40px !important; font-size: 1.15rem !important; }
+          .skills-section { padding: 70px 20px !important; }
+          .skills-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+        }
+        @media (max-width: 480px) {
+          .skills-section { padding: 60px 16px !important; }
+          .skills-section h2 { margin-bottom: 40px !important; }
         }
       `}</style>
 
       <section
         ref={sectionRef}
         id="skills"
-        style={{ padding: "100px 60px", background: "var(--surface)" }}
-      >
-      <div className="section-label">What I know</div>
-      <h2
+        className="skills-section"
         style={{
-          fontFamily: "var(--font-syne)",
-          fontSize: "clamp(2rem, 4vw, 3rem)",
-          fontWeight: 800,
-          letterSpacing: "-0.02em",
-          marginBottom: "60px",
-          lineHeight: 1.1,
+          padding: "100px 60px",
+          background: "var(--surface)",
         }}
       >
-        Skills & <span className="gradient-text">Technologies</span>
-      </h2>
+        <div className="section-label">What I know</div>
+        <h2
+          style={{
+            fontFamily: "var(--font-syne)",
+            fontSize: "clamp(2rem, 4vw, 3rem)",
+            fontWeight: 800,
+            letterSpacing: "-0.02em",
+            marginBottom: "60px",
+            lineHeight: 1.1,
+          }}
+        >
+          Skills & <span className="gradient-text">Technologies</span>
+        </h2>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-          gap: "20px",
-        }}
-      >
-        {skills.map((skill, i) => {
-          const c = colorMap[skill.color] || colorMap.c1;
-          return (
-            <div
-              key={skill.id}
-              className="reveal"
-              style={{ transitionDelay: `${i * 80}ms` }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.transform = "translateY(-4px)";
-                el.style.borderColor = c.border;
-                el.style.boxShadow = c.shadow;
-                (el.querySelector(".top-bar") as HTMLElement).style.opacity = "1";
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.transform = "translateY(0)";
-                el.style.borderColor = "var(--border)";
-                el.style.boxShadow = "none";
-                (el.querySelector(".top-bar") as HTMLElement).style.opacity = "0";
-              }}
-            >
-              <div className="skill-card"
+        <div
+          className="skills-grid"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
+            gap: "20px",
+          }}
+        >
+          {skills.map((skill, i) => {
+            const c = colorMap[skill.color] || colorMap.c1;
+            return (
+              <div
+                key={skill.id}
+                className="reveal skill-card-wrapper"
                 style={{
-                  background: "var(--card)",
-                  border: "1px solid var(--border)",
-                  borderRadius: "16px",
-                  padding: "28px",
-                  transition: "transform 0.3s, border-color 0.3s, box-shadow 0.3s",
-                  position: "relative",
-                  overflow: "hidden",
-                  cursor: "default",
+                  transitionDelay: `${i * 80}ms`,
+                  // CSS custom props for hover (set on wrapper so :hover can use them)
+                  ["--skill-hover-border" as string]: c.border,
+                  ["--skill-hover-shadow" as string]: c.shadow,
                 }}
               >
-                {/* Top color bar */}
                 <div
-                  className="top-bar"
+                  className="skill-card"
                   style={{
-                    position: "absolute",
-                    top: 0, left: 0, right: 0,
-                    height: "2px",
-                    background: c.bar,
-                    opacity: 0,
-                    transition: "opacity 0.3s",
-                  }}
-                />
-                <div className="skill-icon"
-                  style={{
-                    width: "44px", height: "44px",
-                    borderRadius: "10px",
-                    background: c.iconBg,
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    fontSize: "1.3rem",
-                    marginBottom: "16px",
+                    background: "var(--card)",
+                    border: "1px solid var(--border)",
+                    borderRadius: "16px",
+                    padding: "28px",
+                    position: "relative",
+                    overflow: "hidden",
+                    cursor: "default",
                   }}
                 >
-                  {skill.icon}
-                </div>
-                <div
-                  style={{
-                    fontFamily: "var(--font-syne)",
-                    fontWeight: 700,
-                    fontSize: "1rem",
-                    marginBottom: "12px",
-                  }}
-                >
-                  {skill.name}
-                </div>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-                  {skill.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      style={{
-                        fontSize: "0.75rem",
-                        padding: "4px 10px",
-                        borderRadius: "100px",
-                        background: "rgba(255,255,255,0.06)",
-                        color: "var(--muted)",
-                        border: "1px solid var(--border)",
-                      }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                  <div
+                    className="top-bar"
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: "2px",
+                      background: c.bar,
+                      opacity: 0,
+                    }}
+                  />
+                  <div
+                    className="skill-icon"
+                    style={{
+                      width: "44px",
+                      height: "44px",
+                      borderRadius: "10px",
+                      background: c.iconBg,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "1.3rem",
+                      marginBottom: "16px",
+                    }}
+                  >
+                    {skill.icon}
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "var(--font-syne)",
+                      fontWeight: 700,
+                      fontSize: "1rem",
+                      marginBottom: "12px",
+                    }}
+                  >
+                    {skill.name}
+                  </div>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                    {skill.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        style={{
+                          fontSize: "0.75rem",
+                          padding: "4px 10px",
+                          borderRadius: "100px",
+                          background: "rgba(255,255,255,0.06)",
+                          color: "var(--muted)",
+                          border: "1px solid var(--border)",
+                        }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
-    </section>
+            );
+          })}
+        </div>
+      </section>
     </>
   );
 }
