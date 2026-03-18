@@ -18,6 +18,11 @@ export const metadata: Metadata = {
   title: "Nikita Surani - Full Stack Developer",
   description:
     "Full Stack Developer with 3.5+ years of experience building scalable backend systems and modern web applications.",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
