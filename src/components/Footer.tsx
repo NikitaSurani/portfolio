@@ -6,9 +6,7 @@ export default function Footer() {
       <div className="site-footer-inner">
         <div className="site-brand">Nikita Surani</div>
 
-        <div className="site-copy">
-          Copyright {new Date().getFullYear()} | Built with care using Next.js
-        </div>
+        <div className="site-copy">Built with care using Next.js</div>
 
         <div style={{ display: "flex", gap: "10px" }}>
           <a

@@ -14,6 +14,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const isScrollingRef = useRef(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -21,13 +22,9 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Body scroll lock when modal is open
+  // Body scroll lock when menu is open
   useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
+    document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
     };
@@ -35,9 +32,10 @@ export default function Navbar() {
 
   useEffect(() => {
     if (!menuOpen) return;
-    const handleClick = (e: Event) => {
-      if (isScrollingRef.current) return;
-      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+    const onOutsideClick = (e: MouseEvent | TouchEvent) => {
+      if (!mobileMenuRef.current || !navRef.current) return;
+      const target = e.target as Node;
+      if (!navRef.current.contains(target) && !mobileMenuRef.current.contains(target)) {
         setMenuOpen(false);
       }
     };
@@ -50,27 +48,37 @@ export default function Navbar() {
     };
   }, [menuOpen]);
 
-  const handleMobileScroll = (e: React.MouseEvent | React.TouchEvent, link: string) => {
+  const scrollToSection = (id: string) => {
+    const target = document.getElementById(id);
+    const navHeight = navRef.current?.offsetHeight ?? 70;
+
+    if (!target) return;
+    const targetTop = target.getBoundingClientRect().top + window.scrollY;
+
+    window.scrollTo({ top: targetTop - navHeight, behavior: "smooth" });
+
+    setTimeout(() => {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 200);
+  };
+
+  const handleMobileScroll = (e: React.MouseEvent | React.TouchEvent, link: { label: string; id: string }) => {
     e.preventDefault();
     e.stopPropagation();
     isScrollingRef.current = true;
 
-    const id = link.toLowerCase();
-    const target = document.getElementById(id);
-    const navHeight = navRef.current?.offsetHeight ?? 70;
-
-    if (target) {
-      const targetTop = target.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({ top: targetTop - navHeight, behavior: "smooth" });
-    }
+    scrollToSection(link.id);
 
     setTimeout(() => {
       setMenuOpen(false);
       isScrollingRef.current = false;
-    }, 100);
+    }, 250);
   };
 
-  const closeMenu = () => setMenuOpen(false);
+  const handleDesktopScroll = (e: React.MouseEvent<HTMLAnchorElement>, link: { label: string; id: string }) => {
+    e.preventDefault();
+    scrollToSection(link.id);
+  };
 
   return (
     <>
@@ -122,13 +130,14 @@ export default function Navbar() {
         {/* Desktop Links */}
         <ul className="nav-links-desktop" style={{ display: "flex", gap: "36px", listStyle: "none" }}>
           {links.map((link) => (
-            <li key={link}>
-              <a href={`#${link.toLowerCase()}`}
+            <li key={link.id}>
+              <a href={`#${link.id}`}
                 style={{ color: "var(--muted)", textDecoration: "none", fontSize: "0.9rem", fontWeight: 500, letterSpacing: "0.02em", transition: "color 0.3s" }}
+                onClick={(e) => handleDesktopScroll(e, link)}
                 onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "var(--muted)")}
               >
-                {link}
+                {link.label}
               </a>
             </li>
           ))}
@@ -164,16 +173,16 @@ export default function Navbar() {
       </nav>
 
       {/* Mobile Menu */}
-      <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
+      <div ref={mobileMenuRef} className={`mobile-menu ${menuOpen ? "open" : ""}`}>
         {links.map((link) => (
-          <a key={link} href={`#${link.toLowerCase()}`}
+          <a key={link.id} href={`#${link.id}`}
             onClick={(e) => handleMobileScroll(e, link)}
             onTouchEnd={(e) => handleMobileScroll(e, link)}
             style={{ color: "var(--muted)", textDecoration: "none", fontSize: "1rem", fontWeight: 500, padding: "12px 16px", borderRadius: "10px", transition: "background 0.2s, color 0.2s", display: "block" }}
             onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.05)"; e.currentTarget.style.color = "var(--text)"; }}
             onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--muted)"; }}
           >
-            {link}
+            {link.label}
           </a>
         ))}
       </div>
