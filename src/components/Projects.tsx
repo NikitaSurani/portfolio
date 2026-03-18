@@ -43,7 +43,11 @@ export default function Projects() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="projects" className="section-shell section-surface">
+    <section
+      ref={sectionRef}
+      id="projects"
+      className="section-shell section-surface"
+    >
       <div className="section-content">
         <div className="section-label">What I&apos;ve built</div>
         <h2 className="section-title">
@@ -53,6 +57,12 @@ export default function Projects() {
         <div className="cards-grid cards-grid-projects">
           {projects.map((project, index) => {
             const badge = badgeStyles[project.badgeColor] || badgeStyles.backend;
+            const maxLength = 170;
+            const isLong = project.description.length > maxLength;
+            const isExpanded = expanded[project.id];
+            const shortText = isLong
+              ? `${project.description.slice(0, maxLength).trimEnd()}...`
+              : project.description;
 
             return (
               <article
@@ -67,44 +77,28 @@ export default function Projects() {
                 </div>
 
                 <h3>{project.title}</h3>
-                {(() => {
-                  const maxLength = 170;
-                  const isLong = project.description.length > maxLength;
-                  const isExpanded = expanded[project.id];
-                  const shortText = isLong
-                    ? project.description.slice(0, maxLength).trimEnd() + "…"
-                    : project.description;
+                <p>
+                  {isLong && !isExpanded ? shortText : project.description}
+                  {isLong ? (
+                    <button
+                      type="button"
+                      className="project-expand-btn"
+                      onClick={() =>
+                        setExpanded((prev) => ({
+                          ...prev,
+                          [project.id]: !prev[project.id],
+                        }))
+                      }
+                    >
+                      {isExpanded ? "show less" : "show more"}
+                    </button>
+                  ) : null}
+                </p>
 
-                  return (
-                    <p>
-                      {isLong && !isExpanded ? shortText : project.description}
-                      {isLong ? (
-                        <button
-                          type="button"
-                          className="project-expand-btn"
-                          onClick={() =>
-                            setExpanded((prev) => ({
-                              ...prev,
-                              [project.id]: !prev[project.id],
-                            }))
-                          }
-                          style={{
-                            marginLeft: "8px",
-                            border: "none",
-                            background: "transparent",
-                            color: "var(--accent)",
-                            cursor: "pointer",
-                            fontWeight: 700,
-                          }}
-                        >
-                          {isExpanded ? "show less" : "show more"}
-                        </button>
-                      ) : null}
-                    </p>
-                  );
-                })()}
-
-                <div className="chip-wrap" style={{ marginBottom: project.link ? "16px" : 0 }}>
+                <div
+                  className="chip-wrap"
+                  style={{ marginBottom: project.link ? "16px" : 0 }}
+                >
                   {project.tech.map((item) => (
                     <span key={item} className="chip">
                       {item}
@@ -113,7 +107,12 @@ export default function Projects() {
                 </div>
 
                 {project.link ? (
-                  <a href={project.link} target="_blank" rel="noreferrer" className="project-link">
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="project-link"
+                  >
                     Visit Site {"->"}
                   </a>
                 ) : null}

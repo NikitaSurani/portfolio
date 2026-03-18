@@ -23,6 +23,7 @@ export default function Hero() {
 
   useEffect(() => {
     const handler = (event: MouseEvent) => {
+      if (window.innerWidth < 768) return;
       if (!glowRef.current) return;
       glowRef.current.style.left = `${event.clientX}px`;
       glowRef.current.style.top = `${event.clientY}px`;
@@ -50,7 +51,7 @@ export default function Hero() {
           min-height: 100vh;
           display: flex;
           align-items: center;
-          padding: 120px 24px 84px;
+          padding: 132px 24px 84px;
           overflow: hidden;
         }
 
@@ -112,6 +113,7 @@ export default function Hero() {
           font-size: clamp(1rem, 2vw, 1.12rem);
           line-height: 1.75;
           margin-bottom: 34px;
+          text-wrap: balance;
         }
 
         .hero-actions {
@@ -147,7 +149,8 @@ export default function Hero() {
 
         @media (max-width: 768px) {
           .hero {
-            padding: 98px 18px 64px;
+            min-height: auto;
+            padding: 118px 18px 64px;
           }
 
           .hero-actions {
@@ -161,6 +164,24 @@ export default function Hero() {
 
           .hero-stats {
             gap: 18px;
+          }
+
+          .hero-stat {
+            min-width: calc(50% - 9px);
+          }
+        }
+
+        @media (max-width: 560px) {
+          .hero-title {
+            font-size: clamp(2.1rem, 12vw, 3.2rem);
+          }
+
+          .hero-copy {
+            line-height: 1.65;
+          }
+
+          .hero-stat {
+            min-width: 100%;
           }
         }
       `}</style>

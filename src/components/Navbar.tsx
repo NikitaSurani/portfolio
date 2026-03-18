@@ -1,6 +1,7 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useRef, useState } from "react";
+import BrandMark from "./BrandMark";
 
 const links = [
   { label: "About", id: "about" },
@@ -14,15 +15,14 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
-  const isScrollingRef = useRef(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => setScrolled(window.scrollY > 18);
+    onScroll();
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Body scroll lock when menu is open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => {
@@ -32,17 +32,29 @@ export default function Navbar() {
 
   useEffect(() => {
     if (!menuOpen) return;
-    const onOutsideClick = (e: MouseEvent | TouchEvent) => {
-      if (!mobileMenuRef.current || !navRef.current) return;
-      const target = e.target as Node;
-      if (!navRef.current.contains(target) && !mobileMenuRef.current.contains(target)) {
-        setMenuOpen(false);
-      }
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMenuOpen(false);
     };
 
+    const onOutsideClick = (event: MouseEvent | TouchEvent) => {
+      const target = event.target as Node;
+      if (
+        navRef.current?.contains(target) ||
+        mobileMenuRef.current?.contains(target)
+      ) {
+        return;
+      }
+
+      setMenuOpen(false);
+    };
+
+    document.addEventListener("keydown", onKeyDown);
     document.addEventListener("mousedown", onOutsideClick);
     document.addEventListener("touchstart", onOutsideClick);
+
     return () => {
+      document.removeEventListener("keydown", onKeyDown);
       document.removeEventListener("mousedown", onOutsideClick);
       document.removeEventListener("touchstart", onOutsideClick);
     };
@@ -50,92 +62,50 @@ export default function Navbar() {
 
   const scrollToSection = (id: string) => {
     const target = document.getElementById(id);
-    const navHeight = navRef.current?.offsetHeight ?? 70;
+    const navHeight = navRef.current?.offsetHeight ?? 76;
 
     if (!target) return;
+
     const targetTop = target.getBoundingClientRect().top + window.scrollY;
-
-    window.scrollTo({ top: targetTop - navHeight, behavior: "smooth" });
-
-    setTimeout(() => {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 200);
+    window.scrollTo({
+      top: targetTop - navHeight - 8,
+      behavior: "smooth",
+    });
   };
 
-  const handleMobileScroll = (e: React.MouseEvent | React.TouchEvent, link: { label: string; id: string }) => {
-    e.preventDefault();
-    e.stopPropagation();
-    isScrollingRef.current = true;
-
-    scrollToSection(link.id);
-
-    setTimeout(() => {
-      setMenuOpen(false);
-      isScrollingRef.current = false;
-    }, 250);
-  };
-
-  const handleDesktopScroll = (e: React.MouseEvent<HTMLAnchorElement>, link: { label: string; id: string }) => {
-    e.preventDefault();
-    scrollToSection(link.id);
+  const navigateToSection = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    id: string,
+    closeMenu = false
+  ) => {
+    event.preventDefault();
+    scrollToSection(id);
+    if (closeMenu) setMenuOpen(false);
   };
 
   return (
     <>
-      <style>{`
-        .mobile-menu-btn { display: none; }
-        .mobile-menu { display: none; }
-        @media (max-width: 768px) {
-          .mobile-menu-btn { display: flex !important; }
-          .nav-links-desktop { display: none !important; }
-          .navbar { padding: 14px 20px !important; }
-          .navbar-hire { font-size: 0.8rem !important; padding: 8px 16px !important; }
-          .mobile-menu.open {
-            display: flex !important;
-            flex-direction: column;
-            position: fixed;
-            top: 64px; left: 0; right: 0;
-            background: rgba(8,8,16,0.98);
-            backdrop-filter: blur(20px);
-            padding: 20px;
-            border-bottom: 1px solid var(--border);
-            gap: 4px;
-            z-index: 99;
-          }
-        }
-      `}</style>
-
       <nav
         ref={navRef}
-        className="navbar"
-        style={{
-          position: "fixed",
-          top: 0, left: 0, right: 0,
-          zIndex: 100,
-          padding: "20px 60px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          backdropFilter: "blur(20px)",
-          background: scrolled ? "rgba(8,8,16,0.95)" : "rgba(8,8,16,0.6)",
-          borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
-          transition: "all 0.3s ease",
-        }}
+        className={`site-nav ${scrolled ? "is-scrolled" : ""}`}
+        aria-label="Primary"
       >
-        {/* Logo */}
-        <div style={{ fontFamily: "var(--font-syne)", fontWeight: 800, fontSize: "1.3rem", background: "linear-gradient(135deg, var(--c1), var(--c5))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-          NS
-        </div>
+        <a
+          href="#about"
+          className="site-nav-brand"
+          aria-label="Go to top section"
+          onClick={(event) => navigateToSection(event, "about")}
+        >
+          <BrandMark compact />
+        </a>
 
-        {/* Desktop Links */}
-        <ul className="nav-links-desktop" style={{ display: "flex", gap: "36px", listStyle: "none" }}>
+        <ul className="site-nav-links">
           {links.map((link) => (
             <li key={link.id}>
-              <a href={`#${link.id}`}
-                style={{ color: "var(--muted)", textDecoration: "none", fontSize: "0.9rem", fontWeight: 500, letterSpacing: "0.02em", transition: "color 0.3s" }}
-                onClick={(e) => handleDesktopScroll(e, link)}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--muted)")}
+              <a
+                href={`#${link.id}`}
+                className="site-nav-link"
+                onClick={(event) => navigateToSection(event, link.id)}
               >
                 {link.label}
               </a>
@@ -143,48 +113,43 @@ export default function Navbar() {
           ))}
         </ul>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          {/* Theme Toggle */}
-          {/* <ThemeToggle /> */}
-
-          {/* Hire Me */}
-          <a className="navbar-hire" href="mailto:nikitasurani16@gmail.com"
-            style={{ padding: "10px 24px", background: "linear-gradient(135deg, var(--c1), var(--c5))", color: "white", borderRadius: "10px", fontSize: "0.85rem", fontWeight: 500, textDecoration: "none", transition: "opacity 0.2s" }}
-            onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
-            onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
-          >
+        <div className="site-nav-actions">
+          <a className="site-nav-cta" href="mailto:nikitasurani16@gmail.com">
             Hire Me
           </a>
-
-          {/* Hamburger */}
-          <button className="mobile-menu-btn" onClick={() => setMenuOpen(!menuOpen)}
-            style={{ display: "none", flexDirection: "column", gap: "5px", background: "none", border: "none", cursor: "pointer", padding: "4px" }}
+          <button
+            type="button"
+            className={`site-nav-toggle ${menuOpen ? "is-open" : ""}`}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+            onClick={() => setMenuOpen((value) => !value)}
           >
-            {[0, 1, 2].map((i) => (
-              <span key={i} style={{
-                display: "block", width: "22px", height: "2px",
-                background: "var(--text)", borderRadius: "2px", transition: "all 0.3s",
-                transform: menuOpen && i === 0 ? "rotate(45deg) translate(5px, 5px)" : menuOpen && i === 2 ? "rotate(-45deg) translate(5px, -5px)" : "none",
-                opacity: menuOpen && i === 1 ? 0 : 1,
-              }} />
-            ))}
+            <span />
+            <span />
+            <span />
           </button>
         </div>
       </nav>
 
-      {/* Mobile Menu */}
-      <div ref={mobileMenuRef} className={`mobile-menu ${menuOpen ? "open" : ""}`}>
+      <div
+        ref={mobileMenuRef}
+        id="mobile-menu"
+        className={`mobile-menu ${menuOpen ? "open" : ""}`}
+      >
         {links.map((link) => (
-          <a key={link.id} href={`#${link.id}`}
-            onClick={(e) => handleMobileScroll(e, link)}
-            onTouchEnd={(e) => handleMobileScroll(e, link)}
-            style={{ color: "var(--muted)", textDecoration: "none", fontSize: "1rem", fontWeight: 500, padding: "12px 16px", borderRadius: "10px", transition: "background 0.2s, color 0.2s", display: "block" }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.05)"; e.currentTarget.style.color = "var(--text)"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--muted)"; }}
+          <a
+            key={link.id}
+            href={`#${link.id}`}
+            className="mobile-menu-link"
+            onClick={(event) => navigateToSection(event, link.id, true)}
           >
             {link.label}
           </a>
         ))}
+        <a className="mobile-menu-cta" href="mailto:nikitasurani16@gmail.com">
+          Let&apos;s Work Together
+        </a>
       </div>
     </>
   );
