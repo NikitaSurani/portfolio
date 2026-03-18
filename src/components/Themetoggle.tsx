@@ -1,57 +1,43 @@
 "use client";
+
 import { useEffect, useState } from "react";
 
 export default function ThemeToggle() {
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(() => {
+    if (typeof window === "undefined") return true;
+    return localStorage.getItem("theme") !== "light";
+  });
 
   useEffect(() => {
-    // Load saved theme
-    const saved = localStorage.getItem("theme");
-    if (saved === "light") {
-      setIsDark(false);
-      document.documentElement.setAttribute("data-theme", "light");
-    }
-  }, []);
-
-  const toggle = () => {
-    const newTheme = isDark ? "light" : "dark";
-    setIsDark(!isDark);
-    if (newTheme === "light") {
-      document.documentElement.setAttribute("data-theme", "light");
-    } else {
+    if (isDark) {
       document.documentElement.removeAttribute("data-theme");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.setAttribute("data-theme", "light");
+      localStorage.setItem("theme", "light");
     }
-    localStorage.setItem("theme", newTheme);
-  };
+  }, [isDark]);
 
   return (
     <button
-      onClick={toggle}
+      onClick={() => setIsDark((value) => !value)}
       title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
       style={{
-        width: "42px",
-        height: "42px",
-        borderRadius: "12px",
+        width: "40px",
+        height: "40px",
+        borderRadius: "10px",
         background: "var(--card)",
         border: "1px solid var(--border)",
         cursor: "pointer",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        fontSize: "1.1rem",
-        transition: "border-color 0.2s, background 0.2s, transform 0.2s",
-        flexShrink: 0,
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)";
-        e.currentTarget.style.transform = "scale(1.05)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = "var(--border)";
-        e.currentTarget.style.transform = "scale(1)";
+        fontSize: "0.8rem",
+        fontWeight: 700,
+        color: "var(--text)",
       }}
     >
-      {isDark ? "☀️" : "🌙"}
+      {isDark ? "LM" : "DM"}
     </button>
   );
 }

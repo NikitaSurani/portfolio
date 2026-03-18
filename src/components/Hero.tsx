@@ -1,280 +1,248 @@
 "use client";
+
 import { useEffect, useRef } from "react";
+
+type Blob = {
+  color: string;
+  size: string;
+  delay: string;
+  top?: string;
+  right?: string;
+  bottom?: string;
+  left?: string;
+};
+
+const blobs: Blob[] = [
+  { color: "var(--accent)", size: "360px", delay: "0s", top: "-110px", right: "-120px" },
+  { color: "var(--accent-2)", size: "280px", delay: "1.8s", bottom: "-70px", left: "20%" },
+  { color: "var(--accent-3)", size: "260px", delay: "3.2s", top: "38%", left: "-100px" },
+];
 
 export default function Hero() {
   const glowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (glowRef.current) {
-        glowRef.current.style.left = e.clientX + "px";
-        glowRef.current.style.top = e.clientY + "px";
-      }
+    const handler = (event: MouseEvent) => {
+      if (!glowRef.current) return;
+      glowRef.current.style.left = `${event.clientX}px`;
+      glowRef.current.style.top = `${event.clientY}px`;
     };
+
     window.addEventListener("mousemove", handler);
     return () => window.removeEventListener("mousemove", handler);
   }, []);
 
   return (
     <>
+      <style>{`
+        @keyframes floatBlob {
+          0%, 100% { transform: translate(0, 0); }
+          50% { transform: translate(18px, -20px); }
+        }
+
+        @keyframes revealUp {
+          from { opacity: 0; transform: translateY(24px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero {
+          position: relative;
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          padding: 120px 24px 84px;
+          overflow: hidden;
+        }
+
+        .hero-content {
+          width: min(980px, 100%);
+          margin: 0 auto;
+          position: relative;
+          z-index: 2;
+        }
+
+        .hero-chip,
+        .hero-title,
+        .hero-copy,
+        .hero-actions,
+        .hero-stats {
+          animation: revealUp 0.7s ease both;
+        }
+
+        .hero-title { animation-delay: 0.08s; }
+        .hero-copy { animation-delay: 0.16s; }
+        .hero-actions { animation-delay: 0.24s; }
+        .hero-stats { animation-delay: 0.32s; }
+
+        .hero-chip {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          margin-bottom: 26px;
+          padding: 7px 14px;
+          border-radius: 999px;
+          border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+          background: color-mix(in srgb, var(--accent) 14%, transparent);
+          color: var(--accent);
+          text-transform: uppercase;
+          font-size: 0.72rem;
+          font-weight: 700;
+          letter-spacing: 0.08em;
+        }
+
+        .hero-chip i {
+          width: 7px;
+          height: 7px;
+          border-radius: 999px;
+          background: var(--accent);
+          box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 30%, transparent);
+        }
+
+        .hero-title {
+          font-family: var(--font-syne);
+          font-size: clamp(2.3rem, 7vw, 5rem);
+          line-height: 1.06;
+          letter-spacing: -0.03em;
+          margin-bottom: 20px;
+        }
+
+        .hero-copy {
+          max-width: 720px;
+          color: var(--muted);
+          font-size: clamp(1rem, 2vw, 1.12rem);
+          line-height: 1.75;
+          margin-bottom: 34px;
+        }
+
+        .hero-actions {
+          display: flex;
+          gap: 14px;
+          flex-wrap: wrap;
+        }
+
+        .hero-stats {
+          margin-top: 56px;
+          padding-top: 36px;
+          border-top: 1px solid var(--border-strong);
+          display: flex;
+          flex-wrap: wrap;
+          gap: 24px;
+        }
+
+        .hero-stat {
+          min-width: 160px;
+        }
+
+        .hero-stat strong {
+          display: block;
+          font-family: var(--font-syne);
+          font-size: 2rem;
+          letter-spacing: -0.02em;
+        }
+
+        .hero-stat span {
+          font-size: 0.86rem;
+          color: var(--muted);
+        }
+
+        @media (max-width: 768px) {
+          .hero {
+            padding: 98px 18px 64px;
+          }
+
+          .hero-actions {
+            flex-direction: column;
+          }
+
+          .hero-actions a {
+            width: 100%;
+            text-align: center;
+          }
+
+          .hero-stats {
+            gap: 18px;
+          }
+        }
+      `}</style>
+
       <div
         ref={glowRef}
         style={{
           position: "fixed",
-          width: "300px",
-          height: "300px",
+          width: "260px",
+          height: "260px",
           borderRadius: "50%",
           background:
-            "radial-gradient(circle, rgba(77,150,255,0.07), transparent 70%)",
+            "radial-gradient(circle, color-mix(in srgb, var(--accent-2) 24%, transparent), transparent 72%)",
           pointerEvents: "none",
           transform: "translate(-50%, -50%)",
-          transition: "left 0.3s ease, top 0.3s ease",
-          zIndex: 999,
+          transition: "left 0.25s ease, top 0.25s ease",
+          zIndex: 0,
         }}
       />
 
-      <style>{`
-        @keyframes float {
-          0%, 100% { transform: translate(0, 0) scale(1); }
-          33% { transform: translate(30px, -30px) scale(1.05); }
-          66% { transform: translate(-20px, 20px) scale(0.95); }
-        }
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(30px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes pulse {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.5; transform: scale(0.8); }
-        }
-        .hero-cta-btn-primary {
-          padding: 14px 32px;
-          background: linear-gradient(135deg, var(--c1), var(--c5));
-          color: white;
-          border-radius: 12px;
-          font-size: 0.95rem;
-          font-weight: 500;
-          text-decoration: none;
-          box-shadow: 0 0 30px rgba(255,107,107,0.3);
-          transition: transform 0.2s, box-shadow 0.2s;
-          text-align: center;
-        }
-        .hero-cta-btn-secondary {
-          padding: 14px 32px;
-          background: transparent;
-          color: var(--text);
-          border: 1px solid rgba(255,255,255,0.1);
-          border-radius: 12px;
-          font-size: 0.95rem;
-          font-weight: 500;
-          text-decoration: none;
-          transition: border-color 0.2s, background 0.2s;
-          text-align: center;
-        }
-        @media (max-width: 768px) {
-          .hero-cta { flex-direction: column !important; }
-          .hero-cta-btn-primary, .hero-cta-btn-secondary { width: 100% !important; }
-          .hero-stats { gap: 24px !important; }
-          .stat-num { font-size: 1.8rem !important; }
-        }
-      `}</style>
-
-      <section
-        id="about"
-        className="hero-section"
-        style={{
-          minHeight: "100vh",
-          display: "flex",
-          alignItems: "center",
-          padding: "120px 60px 80px",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        {/* Blobs */}
-        {[
-          {
-            color: "var(--c1)",
-            top: "-100px",
-            right: "-100px",
-            delay: "0s",
-            size: "500px",
-          },
-          {
-            color: "var(--c5)",
-            bottom: "-50px",
-            left: "30%",
-            delay: "3s",
-            size: "400px",
-          },
-          {
-            color: "var(--c4)",
-            top: "30%",
-            left: "-50px",
-            delay: "6s",
-            size: "300px",
-          },
-        ].map((blob, i) => (
+      <section id="about" className="hero">
+        {blobs.map((blob) => (
           <div
-            key={i}
+            key={`${blob.color}-${blob.delay}`}
             style={{
               position: "absolute",
               width: blob.size,
               height: blob.size,
               borderRadius: "50%",
+              filter: "blur(76px)",
+              opacity: 0.24,
               background: blob.color,
-              filter: "blur(80px)",
-              opacity: 0.12,
-              top: (blob as any).top,
-              bottom: (blob as any).bottom,
-              left: (blob as any).left,
-              right: (blob as any).right,
-              animation: `float 8s ease-in-out ${blob.delay} infinite`,
+              animation: `floatBlob 8s ease-in-out ${blob.delay} infinite`,
+              top: blob.top,
+              right: blob.right,
+              bottom: blob.bottom,
+              left: blob.left,
             }}
           />
         ))}
 
-        <div
-          style={{
-            position: "relative",
-            zIndex: 2,
-            maxWidth: "900px",
-            width: "100%",
-          }}
-        >
-          {/* Tag */}
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-              background: "rgba(255,107,107,0.1)",
-              border: "1px solid rgba(255,107,107,0.3)",
-              color: "var(--c1)",
-              padding: "6px 16px",
-              borderRadius: "100px",
-              fontSize: "0.8rem",
-              fontWeight: 500,
-              letterSpacing: "0.05em",
-              textTransform: "uppercase",
-              marginBottom: "28px",
-              animation: "fadeUp 0.8s ease both",
-            }}
-          >
-            <span
-              style={{
-                width: "6px",
-                height: "6px",
-                background: "var(--c1)",
-                borderRadius: "50%",
-                animation: "pulse 2s ease infinite",
-              }}
-            />
+        <div className="hero-content">
+          <div className="hero-chip">
+            <i />
             Available for opportunities
           </div>
 
-          {/* Heading */}
-          <h1
-            style={{
-              fontFamily: "var(--font-syne)",
-              fontWeight: 800,
-              fontSize: "clamp(2.5rem, 7vw, 5.5rem)",
-              lineHeight: 1.05,
-              letterSpacing: "-0.03em",
-              marginBottom: "24px",
-              animation: "fadeUp 0.8s ease 0.1s both",
-            }}
-          >
-            Hi, I&apos;m <span className="gradient-text">Nikita Surani</span> 👋
+          <h1 className="hero-title">
+            Nikita Surani
+            <br />
+            <span className="gradient-text">Full Stack Developer</span>
           </h1>
 
-          {/* Description */}
-          <p
-            style={{
-              fontSize: "clamp(0.95rem, 2vw, 1.1rem)",
-              color: "var(--muted)",
-              lineHeight: 1.7,
-              maxWidth: "560px",
-              marginBottom: "40px",
-              fontWeight: 300,
-              animation: "fadeUp 0.8s ease 0.2s both",
-            }}
-          >
-            {/* Full Stack Developer with 3.5+ years of experience building scalable
-            backend systems and modern web applications. Specializing in
-            Node.js, NestJS, and cloud platforms. */}
+          <p className="hero-copy">
             Full Stack Developer with 3.5+ years of experience building
-            production-grade backend systems in NestJS, Node.js, and TypeScript
-            — with solid frontend skills in React.js and Next.js. Shipped
-            real-time features and scalable APIs across multiple production
-            applications.
+            production-grade backend systems in NestJS, Node.js, and TypeScript,
+            with strong frontend delivery in React.js and Next.js.
           </p>
 
-          {/* CTA */}
-          <div
-            className="hero-cta"
-            style={{
-              display: "flex",
-              gap: "16px",
-              flexWrap: "wrap",
-              animation: "fadeUp 0.8s ease 0.3s both",
-            }}
-          >
-            <a href="#projects" className="hero-cta-btn-primary">
-              View My Work →
+          <div className="hero-actions">
+            <a href="#projects" className="cta-btn-primary">
+              View Projects
             </a>
             <a
               href="https://www.linkedin.com/in/nikita-surani/"
               target="_blank"
               rel="noreferrer"
-              className="hero-cta-btn-secondary"
+              className="cta-btn-secondary"
             >
-              LinkedIn →
+              LinkedIn
             </a>
           </div>
 
-          {/* Stats */}
-          <div
-            className="hero-stats"
-            style={{
-              display: "flex",
-              gap: "48px",
-              marginTop: "64px",
-              paddingTop: "48px",
-              borderTop: "1px solid var(--border)",
-              animation: "fadeUp 0.8s ease 0.4s both",
-              flexWrap: "wrap",
-            }}
-          >
+          <div className="hero-stats">
             {[
-              { num: "3.5+", label: "Years Experience" },
-              { num: "10+", label: "Projects Delivered" },
-              { num: "5+", label: "Technologies" },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <div
-                  className="stat-num"
-                  style={{
-                    fontFamily: "var(--font-syne)",
-                    fontSize: "2.2rem",
-                    fontWeight: 800,
-                    background: "linear-gradient(135deg, var(--c2), var(--c3))",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                  }}
-                >
-                  {stat.num}
-                </div>
-                <div
-                  style={{
-                    fontSize: "0.85rem",
-                    color: "var(--muted)",
-                    marginTop: "2px",
-                  }}
-                >
-                  {stat.label}
-                </div>
+              { value: "3.5+", label: "Years Experience" },
+              { value: "10+", label: "Projects Delivered" },
+              { value: "5+", label: "Core Technologies" },
+            ].map((item) => (
+              <div key={item.label} className="hero-stat">
+                <strong>{item.value}</strong>
+                <span>{item.label}</span>
               </div>
             ))}
           </div>

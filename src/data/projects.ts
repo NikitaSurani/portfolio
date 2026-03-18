@@ -4,7 +4,7 @@ export const projects = [
     num: "01",
     badge: "Backend",
     badgeColor: "backend",
-    title: "Go Someplace – Travel Social App",
+    title: "Go Someplace - Travel Social App",
     description:
       "Social platform for travelers to connect, share trips, and discover experiences with real-time chat and push notifications.",
     tech: [
@@ -19,20 +19,21 @@ export const projects = [
     link: "",
   },
   {
-    id: "tgg",
+    id: "invie",
     num: "02",
     badge: "Backend",
     badgeColor: "backend",
-    title: "TGG Accounting",
+    title: "Invie",
     description:
-      "Comprehensive accounting platform for outsourced business advisory services including payments, budgets, and asset tracking.",
+      "Led backend development of Invie, a social event management platform built with NestJS. Engineered a complete host-guest invite lifecycle including polling, RSVP management, waitlist, nudge system, draft invites, and event confirmation stages. Integrated Google Calendar and iCal for cross-platform event syncing, with real-time push notifications and SMS-based invite delivery for non-app users.",
     tech: [
       "NestJS",
-      "TypeORM",
-      "PostgreSQL",
-      "class-validator",
-      "ESLint",
-      "Prettier",
+      "Google Calendar API",
+      "iCal",
+      "Twilio",
+      "MySQL",
+      "Prisma",
+      "DigitalOcean",
     ],
     link: "",
   },
@@ -41,7 +42,7 @@ export const projects = [
     num: "03",
     badge: "Frontend",
     badgeColor: "frontend",
-    title: "Quanten – Entertainment Platform",
+    title: "Quanten - Entertainment Platform",
     description:
       "Media insights platform for film producers to evaluate audience reactions through data visualization and real-time analytics.",
     tech: [
@@ -53,8 +54,7 @@ export const projects = [
       "Intercom",
       "ZeptoMail",
     ],
-    // link: "https://www.quanten.co",
-
+    link: "",
   },
   {
     id: "asset",
@@ -74,7 +74,7 @@ export const projects = [
     badgeColor: "backend",
     title: "Event Management",
     description:
-      "Scalable event management platform with calendar sync, recurrence flows, and Google Calendar integration.",
+      "Scalable event management platform with calendar sync, recurrence workflows, and Google Calendar integration.",
     tech: ["NestJS", "WebSocket", "PostgreSQL", "Matrix"],
     link: "",
   },
@@ -85,8 +85,8 @@ export const projects = [
     badgeColor: "frontend",
     title: "Reward Genix",
     description:
-      "Modern rewards and loyalty platform with dynamic UI,Handle with in 3 mode only cash, cash+points and only points.",
-    tech: ["React.js", "Next.js", "Tailwind CSS"],
+      "Rewards and loyalty platform supporting three redemption modes: cash, cash plus points, and points only.",
+    tech: ["React.js", "Next.js", "Tailwind CSS", "CSS Grid", "i18n", "React-Query"],
     link: "",
   },
   {
@@ -95,8 +95,8 @@ export const projects = [
     badge: "Frontend",
     badgeColor: "frontend",
     title: "Seek",
-    description: "Frontend web application built with modern React ecosystem.",
-    tech: ["React.js", "Next.js", "TypeScript"],
+    description: "Frontend web application built with the modern React ecosystem.",
+    tech: ["React.js", "Next.js", "TypeScript", "Ant Design"],
     link: "",
   },
   {
@@ -106,8 +106,8 @@ export const projects = [
     badgeColor: "backend",
     title: "CREW",
     description:
-      "Crew is a smart household management app that helps roommates, partners, and families organize tasks, track shared expenses, and manage daily responsibilities efficiently for smoother shared living.",
-    tech: ["NestJS", "MySQL", "Prisma", "Socket.io", "Firebase", "AWS S3"],
+      "Household management app that helps roommates and families organize tasks, track shared expenses, and manage daily responsibilities.",
+    tech: ["NestJS", "MySQL", "Prisma", "Socket.io", "Firebase", "AWS S3", "RRule"],
     link: "",
   },
   {
@@ -117,31 +117,37 @@ export const projects = [
     badgeColor: "backend",
     title: "TravelBuddy (EKAKI)",
     description:
-      "Ekaki is a social platform that helps solo travelers find companions, connect through chat, create travel groups, and share travel experiences within a supportive community.",
-    tech: ["NestJS", "MySQL", "Prisma", "Socket.io", "Firebase", "AWS S3"],
-    // link: "https://ekaki.travel/",
+      "Community platform that helps solo travelers find companions, chat, create groups, and share experiences.",
+    tech: ["NestJS", "MySQL", "Prisma", "Socket.io", "Firebase", "AWS S3", "AWS EC2"],
+    link: "",
+  },
+  {
+    id: "tgg",
+    num: "10",
+    badge: "Backend",
+    badgeColor: "backend",
+    title: "TGG Accounting",
+    description:
+      "Comprehensive accounting platform for outsourced business advisory services including payments, budgets, and asset tracking.",
+    tech: [
+      "NestJS",
+      "TypeORM",
+      "PostgreSQL",
+      "class-validator",
+      "ESLint",
+      "Prettier",
+    ],
     link: "",
   },
   {
     id: "riddio",
-    num: "10",
+    num: "11",
     badge: "Backend",
     badgeColor: "backend",
     title: "RiddIo",
     description:
-      "Scalable backend application with clean modular architecture.",
-    tech: ["NestJS", "MySQL", "TypeORM"],
-    link: "",
-  },
-  {
-    id: "invie",
-    num: "11",
-    badge: "Backend",
-    badgeColor: "backend",
-    title: "Invie",
-    description:
-      "Backend service with robust API design and database management.",
-    tech: ["NestJS", "MySQL", "TypeORM", "Google Calendar", "iCal"],
+      "Developed backend for Ridd.io, a platform connecting users with nearby donation stations and recycling centers. Built RESTful APIs supporting dual roles (User & Service Provider), integrated Google Places API for location-based service discovery, and implemented CSV import/export for bulk service provider management.",
+    tech: ["NestJS", "MySQL", "Prisma", "Google Place API", "DigitalOcean"],
     link: "",
   },
 ];

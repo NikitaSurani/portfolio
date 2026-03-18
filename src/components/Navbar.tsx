@@ -1,401 +1,6 @@
-// "use client";
-// import { useState, useEffect, useRef } from "react";
-
-// const links = ["About", "Skills", "Experience", "Projects"];
-
-// export default function Navbar() {
-//   const [scrolled, setScrolled] = useState(false);
-//   const [menuOpen, setMenuOpen] = useState(false);
-//   const navRef = useRef<HTMLElement>(null);
-
-//   useEffect(() => {
-//     const handler = () => setScrolled(window.scrollY > 40);
-//     window.addEventListener("scroll", handler);
-//     return () => window.removeEventListener("scroll", handler);
-//   }, []);
-
-//   // close mobile menu when clicking outside of nav/menu
-//   useEffect(() => {
-//     if (!menuOpen) return;
-//     const handleClick = (e: Event) => {
-//       if (navRef.current && !navRef.current.contains(e.target as Node)) {
-//         setMenuOpen(false);
-//       }
-//     };
-//     document.addEventListener("mousedown", handleClick);
-//     document.addEventListener("touchstart", handleClick);
-//     return () => {
-//       document.removeEventListener("mousedown", handleClick);
-//       document.removeEventListener("touchstart", handleClick);
-//     };
-//   }, [menuOpen]);
-
-//   return (
-//     <>
-//       <style>{`
-//         .mobile-menu-btn { display: none; }
-//         .mobile-menu { display: none; }
-//         @media (max-width: 768px) {
-//           .mobile-menu-btn { display: flex !important; }
-//           .nav-links-desktop { display: none !important; }
-//           .mobile-menu.open {
-//             display: flex !important;
-//             flex-direction: column;
-//             position: fixed;
-//             top: 64px; left: 0; right: 0;
-//             background: rgba(8,8,16,0.98);
-//             backdrop-filter: blur(20px);
-//             padding: 20px;
-//             border-bottom: 1px solid rgba(255,255,255,0.06);
-//             gap: 4px;
-//             z-index: 99;
-//           }
-//         }
-//       `}</style>
-
-//       <nav
-//         ref={navRef}
-//         className="navbar"
-//         style={{
-//           position: "fixed",
-//           top: 0, left: 0, right: 0,
-//           zIndex: 100,
-//           padding: "20px 60px",
-//           display: "flex",
-//           justifyContent: "space-between",
-//           alignItems: "center",
-//           backdropFilter: "blur(20px)",
-//           background: scrolled ? "rgba(8,8,16,0.95)" : "rgba(8,8,16,0.6)",
-//           borderBottom: scrolled ? "1px solid rgba(255,255,255,0.06)" : "1px solid transparent",
-//           transition: "all 0.3s ease",
-//         }}
-//       >
-//         {/* Logo */}
-//         <div
-//           style={{
-//             fontFamily: "var(--font-syne)",
-//             fontWeight: 800,
-//             fontSize: "1.3rem",
-//             background: "linear-gradient(135deg, var(--c1), var(--c5))",
-//             WebkitBackgroundClip: "text",
-//             WebkitTextFillColor: "transparent",
-//             backgroundClip: "text",
-//           }}
-//         >
-//           NS
-//         </div>
-
-//         {/* Desktop Links */}
-//         <ul className="nav-links-desktop" style={{ display: "flex", gap: "36px", listStyle: "none" }}>
-//           {links.map((link) => (
-//             <li key={link}>
-//               <a
-//                 href={`#${link.toLowerCase()}`}
-//                 style={{
-//                   color: "var(--muted)",
-//                   textDecoration: "none",
-//                   fontSize: "0.9rem",
-//                   fontWeight: 500,
-//                   letterSpacing: "0.02em",
-//                   transition: "color 0.3s",
-//                 }}
-//                 onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
-//                 onMouseLeave={(e) => (e.currentTarget.style.color = "var(--muted)")}
-//               >
-//                 {link}
-//               </a>
-//             </li>
-//           ))}
-//         </ul>
-
-//         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-//           {/* Hire Me Button */}
-//           <a
-//             className="navbar-hire"
-//             href="mailto:nikitasurani16@gmail.com"
-//             style={{
-//               padding: "10px 24px",
-//               background: "linear-gradient(135deg, var(--c1), var(--c5))",
-//               color: "white",
-//               borderRadius: "10px",
-//               fontSize: "0.85rem",
-//               fontWeight: 500,
-//               textDecoration: "none",
-//               transition: "opacity 0.2s",
-//             }}
-//             onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
-//             onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
-//           >
-//             Hire Me
-//           </a>
-
-//           {/* Hamburger Button */}
-//           <button
-//             className="mobile-menu-btn"
-//             onClick={() => setMenuOpen(!menuOpen)}
-//             style={{
-//               display: "none",
-//               flexDirection: "column",
-//               gap: "5px",
-//               background: "none",
-//               border: "none",
-//               cursor: "pointer",
-//               padding: "4px",
-//             }}
-//           >
-//             {[0, 1, 2].map((i) => (
-//               <span
-//                 key={i}
-//                 style={{
-//                   display: "block",
-//                   width: "22px",
-//                   height: "2px",
-//                   background: "var(--text)",
-//                   borderRadius: "2px",
-//                   transition: "all 0.3s",
-//                   transform:
-//                     menuOpen && i === 0 ? "rotate(45deg) translate(5px, 5px)" :
-//                     menuOpen && i === 1 ? "opacity: 0" :
-//                     menuOpen && i === 2 ? "rotate(-45deg) translate(5px, -5px)" : "none",
-//                   opacity: menuOpen && i === 1 ? 0 : 1,
-//                 }}
-//               />
-//             ))}
-//           </button>
-//         </div>
-//       </nav>
-
-//       {/* Mobile Menu */}
-//       <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
-//         {links.map((link) => (
-//           <a
-//             key={link}
-//             href={`#${link.toLowerCase()}`}
-//             onClick={(e) => {
-//               e.preventDefault();
-//               setMenuOpen(false);
-//               const id = link.toLowerCase();
-//               // scroll after menu closes, delay ensures layout updated
-//               setTimeout(() => {
-//                 document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-//               }, 300);
-//             }}
-//             style={{
-//               color: "var(--muted)",
-//               textDecoration: "none",
-//               fontSize: "1rem",
-//               fontWeight: 500,
-//               padding: "12px 16px",
-//               borderRadius: "10px",
-//               transition: "background 0.2s, color 0.2s",
-//             }}
-//             onMouseEnter={(e) => {
-//               e.currentTarget.style.background = "rgba(255,255,255,0.05)";
-//               e.currentTarget.style.color = "var(--text)";
-//             }}
-//             onMouseLeave={(e) => {
-//               e.currentTarget.style.background = "transparent";
-//               e.currentTarget.style.color = "var(--muted)";
-//             }}
-//           >
-//             {link}
-//           </a>
-//         ))}
-//       </div>
-//     </>
-//   );
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// "use client";
-// import { useState, useEffect, useRef } from "react";
-
-// const links = ["About", "Skills", "Experience", "Projects"];
-
-// export default function Navbar() {
-//   const [scrolled, setScrolled] = useState(false);
-//   const [menuOpen, setMenuOpen] = useState(false);
-//   const navRef = useRef<HTMLElement>(null);
-//   const isScrollingRef = useRef(false);
-
-//   useEffect(() => {
-//     const handler = () => setScrolled(window.scrollY > 40);
-//     window.addEventListener("scroll", handler);
-//     return () => window.removeEventListener("scroll", handler);
-//   }, []);
-
-//   useEffect(() => {
-//     if (!menuOpen) return;
-//     const handleClick = (e: Event) => {
-//       if (isScrollingRef.current) return; // ✅ scroll વખતે close ન કરો
-//       if (navRef.current && !navRef.current.contains(e.target as Node)) {
-//         setMenuOpen(false);
-//       }
-//     };
-//     document.addEventListener("mousedown", handleClick);
-//     document.addEventListener("touchstart", handleClick);
-//     return () => {
-//       document.removeEventListener("mousedown", handleClick);
-//       document.removeEventListener("touchstart", handleClick);
-//     };
-//   }, [menuOpen]);
-
-//   const handleMobileScroll = (e: React.MouseEvent | React.TouchEvent, link: string) => {
-//     e.preventDefault();
-//     e.stopPropagation(); // ✅ touchstart conflict stop
-
-//     isScrollingRef.current = true;
-
-//     const id = link.toLowerCase();
-//     const target = document.getElementById(id);
-//     const navHeight = navRef.current?.offsetHeight ?? 70;
-
-//     // ✅ Scroll first
-//     if (target) {
-//       const targetTop = target.getBoundingClientRect().top + window.scrollY;
-//       window.scrollTo({
-//         top: targetTop - navHeight,
-//         behavior: "smooth",
-//       });
-//     }
-
-//     // ✅ Then close menu after scroll starts
-//     setTimeout(() => {
-//       setMenuOpen(false);
-//       isScrollingRef.current = false;
-//     }, 100);
-//   };
-
-//   return (
-//     <>
-//       <style>{`
-//         .mobile-menu-btn { display: none; }
-//         .mobile-menu { display: none; }
-//         @media (max-width: 768px) {
-//           .mobile-menu-btn { display: flex !important; }
-//           .nav-links-desktop { display: none !important; }
-//           .navbar { padding: 14px 20px !important; }
-//           .navbar-hire { font-size: 0.8rem !important; padding: 8px 16px !important; }
-//           .mobile-menu.open {
-//             display: flex !important;
-//             flex-direction: column;
-//             position: fixed;
-//             top: 64px; left: 0; right: 0;
-//             background: rgba(8,8,16,0.98);
-//             backdrop-filter: blur(20px);
-//             padding: 20px;
-//             border-bottom: 1px solid rgba(255,255,255,0.06);
-//             gap: 4px;
-//             z-index: 99;
-//           }
-//         }
-//       `}</style>
-
-//       <nav
-//         ref={navRef}
-//         className="navbar"
-//         style={{
-//           position: "fixed",
-//           top: 0, left: 0, right: 0,
-//           zIndex: 100,
-//           padding: "20px 60px",
-//           display: "flex",
-//           justifyContent: "space-between",
-//           alignItems: "center",
-//           backdropFilter: "blur(20px)",
-//           background: scrolled ? "rgba(8,8,16,0.95)" : "rgba(8,8,16,0.6)",
-//           borderBottom: scrolled ? "1px solid rgba(255,255,255,0.06)" : "1px solid transparent",
-//           transition: "all 0.3s ease",
-//         }}
-//       >
-//         {/* Logo */}
-//         <div style={{ fontFamily: "var(--font-syne)", fontWeight: 800, fontSize: "1.3rem", background: "linear-gradient(135deg, var(--c1), var(--c5))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-//           NS
-//         </div>
-
-//         {/* Desktop Links */}
-//         <ul className="nav-links-desktop" style={{ display: "flex", gap: "36px", listStyle: "none" }}>
-//           {links.map((link) => (
-//             <li key={link}>
-//               <a href={`#${link.toLowerCase()}`}
-//                 style={{ color: "var(--muted)", textDecoration: "none", fontSize: "0.9rem", fontWeight: 500, letterSpacing: "0.02em", transition: "color 0.3s" }}
-//                 onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
-//                 onMouseLeave={(e) => (e.currentTarget.style.color = "var(--muted)")}
-//               >
-//                 {link}
-//               </a>
-//             </li>
-//           ))}
-//         </ul>
-
-//         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-//           <a className="navbar-hire" href="mailto:nikitasurani16@gmail.com"
-//             style={{ padding: "10px 24px", background: "linear-gradient(135deg, var(--c1), var(--c5))", color: "white", borderRadius: "10px", fontSize: "0.85rem", fontWeight: 500, textDecoration: "none", transition: "opacity 0.2s" }}
-//             onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
-//             onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
-//           >
-//             Hire Me
-//           </a>
-
-//           <button className="mobile-menu-btn" onClick={() => setMenuOpen(!menuOpen)}
-//             style={{ display: "none", flexDirection: "column", gap: "5px", background: "none", border: "none", cursor: "pointer", padding: "4px" }}
-//           >
-//             {[0, 1, 2].map((i) => (
-//               <span key={i} style={{
-//                 display: "block", width: "22px", height: "2px",
-//                 background: "var(--text)", borderRadius: "2px", transition: "all 0.3s",
-//                 transform: menuOpen && i === 0 ? "rotate(45deg) translate(5px, 5px)" : menuOpen && i === 2 ? "rotate(-45deg) translate(5px, -5px)" : "none",
-//                 opacity: menuOpen && i === 1 ? 0 : 1,
-//               }} />
-//             ))}
-//           </button>
-//         </div>
-//       </nav>
-
-//       {/* Mobile Menu */}
-//       <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
-//         {links.map((link) => (
-//           <a
-//             key={link}
-//             href={`#${link.toLowerCase()}`}
-//             onClick={(e) => handleMobileScroll(e, link)}
-//             onTouchEnd={(e) => handleMobileScroll(e, link)}
-//             style={{ color: "var(--muted)", textDecoration: "none", fontSize: "1rem", fontWeight: 500, padding: "12px 16px", borderRadius: "10px", transition: "background 0.2s, color 0.2s", display: "block" }}
-//             onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.05)"; e.currentTarget.style.color = "var(--text)"; }}
-//             onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--muted)"; }}
-//           >
-//             {link}
-//           </a>
-//         ))}
-//       </div>
-//     </>
-//   );
-// }
-
-
-
-
-
 "use client";
-import { useState, useEffect, useRef } from "react";
-import ThemeToggle from "./Themetoggle";
+
+import { useEffect, useRef, useState } from "react";
 
 const links = ["About", "Skills", "Experience", "Projects"];
 
@@ -403,150 +8,222 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
-  const isScrollingRef = useRef(false);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", handler);
-    return () => window.removeEventListener("scroll", handler);
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
     if (!menuOpen) return;
-    const handleClick = (e: Event) => {
-      if (isScrollingRef.current) return;
-      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+
+    const onOutsideClick = (event: MouseEvent | TouchEvent) => {
+      const target = event.target as Node;
+      if (
+        navRef.current &&
+        !navRef.current.contains(target) &&
+        !mobileMenuRef.current?.contains(target)
+      ) {
         setMenuOpen(false);
       }
     };
-    document.addEventListener("mousedown", handleClick);
-    document.addEventListener("touchstart", handleClick);
+
+    document.addEventListener("mousedown", onOutsideClick);
+    document.addEventListener("touchstart", onOutsideClick);
     return () => {
-      document.removeEventListener("mousedown", handleClick);
-      document.removeEventListener("touchstart", handleClick);
+      document.removeEventListener("mousedown", onOutsideClick);
+      document.removeEventListener("touchstart", onOutsideClick);
     };
   }, [menuOpen]);
 
-  const handleMobileScroll = (e: React.MouseEvent | React.TouchEvent, link: string) => {
-    e.preventDefault();
-    e.stopPropagation();
-    isScrollingRef.current = true;
-
+  const closeMenuAndScroll = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    link: string
+  ) => {
+    event.preventDefault();
     const id = link.toLowerCase();
     const target = document.getElementById(id);
-    const navHeight = navRef.current?.offsetHeight ?? 70;
+    const navHeight = navRef.current?.offsetHeight ?? 72;
 
-    if (target) {
-      const targetTop = target.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({ top: targetTop - navHeight, behavior: "smooth" });
-    }
+    setMenuOpen(false);
 
+    if (!target) return;
+
+    const top = target.getBoundingClientRect().top + window.scrollY - navHeight;
+    window.scrollTo({ top, behavior: "smooth" });
+
+    // Fallback for browsers or cases where calculated scrolling may fail
     setTimeout(() => {
-      setMenuOpen(false);
-      isScrollingRef.current = false;
-    }, 100);
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 50);
   };
 
   return (
     <>
       <style>{`
-        .mobile-menu-btn { display: none; }
-        .mobile-menu { display: none; }
-        @media (max-width: 768px) {
-          .mobile-menu-btn { display: flex !important; }
-          .nav-links-desktop { display: none !important; }
-          .navbar { padding: 14px 20px !important; }
-          .navbar-hire { font-size: 0.8rem !important; padding: 8px 16px !important; }
+        .site-nav {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          z-index: 100;
+          transition: all 0.25s ease;
+        }
+
+        .site-nav-inner {
+          max-width: 1160px;
+          margin: 0 auto;
+          padding: 20px 24px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 24px;
+        }
+
+        .site-nav.scrolled {
+          background: color-mix(in srgb, var(--bg) 82%, transparent);
+          backdrop-filter: blur(12px);
+          border-bottom: 1px solid var(--border-strong);
+        }
+
+        .nav-links {
+          display: flex;
+          list-style: none;
+          gap: 28px;
+        }
+
+        .nav-links a {
+          color: var(--muted);
+          text-decoration: none;
+          font-size: 0.92rem;
+          font-weight: 600;
+          letter-spacing: 0.01em;
+          transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+          color: var(--text);
+        }
+
+        .menu-btn {
+          display: none;
+          width: 38px;
+          height: 38px;
+          border: 1px solid var(--border-strong);
+          border-radius: 10px;
+          background: var(--card);
+          color: var(--text);
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+        }
+
+        .mobile-menu {
+          display: none;
+        }
+
+        @media (max-width: 860px) {
+          .site-nav-inner {
+            padding: 16px 18px;
+          }
+
+          .nav-links {
+            display: none;
+          }
+
+          .menu-btn {
+            display: inline-flex;
+          }
+
           .mobile-menu.open {
-            display: flex !important;
+            display: flex;
             flex-direction: column;
-            position: fixed;
-            top: 64px; left: 0; right: 0;
-            background: rgba(8,8,16,0.98);
-            backdrop-filter: blur(20px);
-            padding: 20px;
-            border-bottom: 1px solid var(--border);
             gap: 4px;
-            z-index: 99;
+            position: fixed;
+            top: 64px;
+            left: 14px;
+            right: 14px;
+            z-index: 101;
+            padding: 10px;
+            border: 1px solid var(--border-strong);
+            border-radius: 14px;
+            background: color-mix(in srgb, var(--card) 86%, transparent);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-lg);
+          }
+
+          .mobile-menu a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 11px 12px;
+            border-radius: 10px;
+          }
+
+          .mobile-menu a:hover {
+            background: var(--surface);
           }
         }
       `}</style>
 
       <nav
         ref={navRef}
-        className="navbar"
-        style={{
-          position: "fixed",
-          top: 0, left: 0, right: 0,
-          zIndex: 100,
-          padding: "20px 60px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          backdropFilter: "blur(20px)",
-          background: scrolled ? "rgba(8,8,16,0.95)" : "rgba(8,8,16,0.6)",
-          borderBottom: scrolled ? "1px solid var(--border)" : "1px solid transparent",
-          transition: "all 0.3s ease",
-        }}
+        className={`site-nav ${scrolled ? "scrolled" : ""}`}
       >
-        {/* Logo */}
-        <div style={{ fontFamily: "var(--font-syne)", fontWeight: 800, fontSize: "1.3rem", background: "linear-gradient(135deg, var(--c1), var(--c5))", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>
-          NS
-        </div>
-
-        {/* Desktop Links */}
-        <ul className="nav-links-desktop" style={{ display: "flex", gap: "36px", listStyle: "none" }}>
-          {links.map((link) => (
-            <li key={link}>
-              <a href={`#${link.toLowerCase()}`}
-                style={{ color: "var(--muted)", textDecoration: "none", fontSize: "0.9rem", fontWeight: 500, letterSpacing: "0.02em", transition: "color 0.3s" }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--muted)")}
-              >
-                {link}
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          {/* Theme Toggle */}
-          {/* <ThemeToggle /> */}
-
-          {/* Hire Me */}
-          <a className="navbar-hire" href="mailto:nikitasurani16@gmail.com"
-            style={{ padding: "10px 24px", background: "linear-gradient(135deg, var(--c1), var(--c5))", color: "white", borderRadius: "10px", fontSize: "0.85rem", fontWeight: 500, textDecoration: "none", transition: "opacity 0.2s" }}
-            onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
-            onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+        <div className="site-nav-inner">
+          <a
+            href="#about"
+            style={{
+              fontFamily: "var(--font-syne)",
+              fontWeight: 700,
+              fontSize: "1.2rem",
+              letterSpacing: "0.02em",
+              textDecoration: "none",
+              color: "var(--text)",
+            }}
           >
-            Hire Me
+            NS
           </a>
 
-          {/* Hamburger */}
-          <button className="mobile-menu-btn" onClick={() => setMenuOpen(!menuOpen)}
-            style={{ display: "none", flexDirection: "column", gap: "5px", background: "none", border: "none", cursor: "pointer", padding: "4px" }}
-          >
-            {[0, 1, 2].map((i) => (
-              <span key={i} style={{
-                display: "block", width: "22px", height: "2px",
-                background: "var(--text)", borderRadius: "2px", transition: "all 0.3s",
-                transform: menuOpen && i === 0 ? "rotate(45deg) translate(5px, 5px)" : menuOpen && i === 2 ? "rotate(-45deg) translate(5px, -5px)" : "none",
-                opacity: menuOpen && i === 1 ? 0 : 1,
-              }} />
+          <ul className="nav-links">
+            {links.map((link) => (
+              <li key={link}>
+                <a
+                  href={`#${link.toLowerCase()}`}
+                  onClick={(event) => closeMenuAndScroll(event, link)}
+                >
+                  {link}
+                </a>
+              </li>
             ))}
-          </button>
+          </ul>
+
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <a href="mailto:nikitasurani16@gmail.com" className="cta-btn-primary">
+              Hire Me
+            </a>
+
+            <button
+              className="menu-btn"
+              onClick={() => setMenuOpen((v) => !v)}
+              aria-label="Toggle navigation menu"
+              aria-expanded={menuOpen}
+            >
+              {menuOpen ? "X" : "="}
+            </button>
+          </div>
         </div>
       </nav>
 
-      {/* Mobile Menu */}
-      <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
+      <div ref={mobileMenuRef} className={`mobile-menu ${menuOpen ? "open" : ""}`}>
         {links.map((link) => (
-          <a key={link} href={`#${link.toLowerCase()}`}
-            onClick={(e) => handleMobileScroll(e, link)}
-            onTouchEnd={(e) => handleMobileScroll(e, link)}
-            style={{ color: "var(--muted)", textDecoration: "none", fontSize: "1rem", fontWeight: 500, padding: "12px 16px", borderRadius: "10px", transition: "background 0.2s, color 0.2s", display: "block" }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.05)"; e.currentTarget.style.color = "var(--text)"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--muted)"; }}
+          <a
+            key={link}
+            href={`#${link.toLowerCase()}`}
+            onClick={(event) => closeMenuAndScroll(event, link)}
           >
             {link}
           </a>
@@ -555,251 +232,3 @@ export default function Navbar() {
     </>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // "use client";
-  // import { useState, useEffect, useRef } from "react";
-
-  // const links = ["About", "Skills", "Experience", "Projects"];
-
-  // export default function Navbar() {
-  //   const [scrolled, setScrolled] = useState(false);
-  //   const [menuOpen, setMenuOpen] = useState(false);
-  //   const navRef = useRef<HTMLElement>(null);
-
-  //   useEffect(() => {
-  //     const handler = () => setScrolled(window.scrollY > 40);
-  //     window.addEventListener("scroll", handler);
-  //     return () => window.removeEventListener("scroll", handler);
-  //   }, []);
-
-  //   // Close menu when clicking outside
-  //   useEffect(() => {
-  //     if (!menuOpen) return;
-  //     const handleClick = (e: Event) => {
-  //       if (navRef.current && !navRef.current.contains(e.target as Node)) {
-  //         setMenuOpen(false);
-  //       }
-  //     };
-  //     document.addEventListener("mousedown", handleClick);
-  //     document.addEventListener("touchstart", handleClick);
-  //     return () => {
-  //       document.removeEventListener("mousedown", handleClick);
-  //       document.removeEventListener("touchstart", handleClick);
-  //     };
-  //   }, [menuOpen]);
-
-  //   // ✅ Fixed scroll function — accounts for navbar height
-  //   const handleMobileScroll = (e: React.MouseEvent, link: string) => {
-  //     e.preventDefault();
-  //     setMenuOpen(false);
-
-  //     const id = link.toLowerCase();
-
-  //     setTimeout(() => {
-  //       const target = document.getElementById(id);
-  //       if (!target) return;
-
-  //       const navHeight = navRef.current?.offsetHeight ?? 70;
-  //       const targetTop = target.getBoundingClientRect().top + window.scrollY;
-
-  //       window.scrollTo({
-  //         top: targetTop - navHeight,
-  //         behavior: "smooth",
-  //       });
-  //     }, 350); // wait for menu close animation
-  //   };
-
-  //   return (
-  //     <>
-  //       <style>{`
-  //         .mobile-menu-btn { display: none; }
-  //         .mobile-menu { display: none; }
-  //         @media (max-width: 768px) {
-  //           .mobile-menu-btn { display: flex !important; }
-  //           .nav-links-desktop { display: none !important; }
-  //           .navbar { padding: 14px 20px !important; }
-  //           .navbar-hire { font-size: 0.8rem !important; padding: 8px 16px !important; }
-  //           .mobile-menu.open {
-  //             display: flex !important;
-  //             flex-direction: column;
-  //             position: fixed;
-  //             top: 64px; left: 0; right: 0;
-  //             background: rgba(8,8,16,0.98);
-  //             backdrop-filter: blur(20px);
-  //             padding: 20px;
-  //             border-bottom: 1px solid rgba(255,255,255,0.06);
-  //             gap: 4px;
-  //             z-index: 99;
-  //           }
-  //         }
-  //       `}</style>
-
-  //       <nav
-  //         ref={navRef}
-  //         className="navbar"
-  //         style={{
-  //           position: "fixed",
-  //           top: 0, left: 0, right: 0,
-  //           zIndex: 100,
-  //           padding: "20px 60px",
-  //           display: "flex",
-  //           justifyContent: "space-between",
-  //           alignItems: "center",
-  //           backdropFilter: "blur(20px)",
-  //           background: scrolled ? "rgba(8,8,16,0.95)" : "rgba(8,8,16,0.6)",
-  //           borderBottom: scrolled
-  //             ? "1px solid rgba(255,255,255,0.06)"
-  //             : "1px solid transparent",
-  //           transition: "all 0.3s ease",
-  //         }}
-  //       >
-  //         {/* Logo */}
-  //         <div
-  //           style={{
-  //             fontFamily: "var(--font-syne)",
-  //             fontWeight: 800,
-  //             fontSize: "1.3rem",
-  //             background: "linear-gradient(135deg, var(--c1), var(--c5))",
-  //             WebkitBackgroundClip: "text",
-  //             WebkitTextFillColor: "transparent",
-  //             backgroundClip: "text",
-  //           }}
-  //         >
-  //           NS
-  //         </div>
-
-  //         {/* Desktop Links */}
-  //         <ul
-  //           className="nav-links-desktop"
-  //           style={{ display: "flex", gap: "36px", listStyle: "none" }}
-  //         >
-  //           {links.map((link) => (
-  //             <li key={link}>
-  //               <a
-  //                 href={`#${link.toLowerCase()}`}
-  //                 style={{
-  //                   color: "var(--muted)",
-  //                   textDecoration: "none",
-  //                   fontSize: "0.9rem",
-  //                   fontWeight: 500,
-  //                   letterSpacing: "0.02em",
-  //                   transition: "color 0.3s",
-  //                 }}
-  //                 onMouseEnter={(e) => (e.currentTarget.style.color = "var(--text)")}
-  //                 onMouseLeave={(e) => (e.currentTarget.style.color = "var(--muted)")}
-  //               >
-  //                 {link}
-  //               </a>
-  //             </li>
-  //           ))}
-  //         </ul>
-
-  //         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-  //           {/* Hire Me */}
-  //           <a
-  //             className="navbar-hire"
-  //             href="mailto:nikitasurani16@gmail.com"
-  //             style={{
-  //               padding: "10px 24px",
-  //               background: "linear-gradient(135deg, var(--c1), var(--c5))",
-  //               color: "white",
-  //               borderRadius: "10px",
-  //               fontSize: "0.85rem",
-  //               fontWeight: 500,
-  //               textDecoration: "none",
-  //               transition: "opacity 0.2s",
-  //             }}
-  //             onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
-  //             onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
-  //           >
-  //             Hire Me
-  //           </a>
-
-  //           {/* Hamburger */}
-  //           <button
-  //             className="mobile-menu-btn"
-  //             onClick={() => setMenuOpen(!menuOpen)}
-  //             style={{
-  //               display: "none",
-  //               flexDirection: "column",
-  //               gap: "5px",
-  //               background: "none",
-  //               border: "none",
-  //               cursor: "pointer",
-  //               padding: "4px",
-  //             }}
-  //           >
-  //             {[0, 1, 2].map((i) => (
-  //               <span
-  //                 key={i}
-  //                 style={{
-  //                   display: "block",
-  //                   width: "22px",
-  //                   height: "2px",
-  //                   background: "var(--text)",
-  //                   borderRadius: "2px",
-  //                   transition: "all 0.3s",
-  //                   transform:
-  //                     menuOpen && i === 0
-  //                       ? "rotate(45deg) translate(5px, 5px)"
-  //                       : menuOpen && i === 2
-  //                       ? "rotate(-45deg) translate(5px, -5px)"
-  //                       : "none",
-  //                   opacity: menuOpen && i === 1 ? 0 : 1,
-  //                 }}
-  //               />
-  //             ))}
-  //           </button>
-  //         </div>
-  //       </nav>
-
-  //       {/* Mobile Menu */}
-  //       <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
-  //         {links.map((link) => (
-  //           <a
-  //             key={link}
-  //             href={`#${link.toLowerCase()}`}
-  //             onClick={(e) => handleMobileScroll(e, link)}
-  //             style={{
-  //               color: "var(--muted)",
-  //               textDecoration: "none",
-  //               fontSize: "1rem",
-  //               fontWeight: 500,
-  //               padding: "12px 16px",
-  //               borderRadius: "10px",
-  //               transition: "background 0.2s, color 0.2s",
-  //             }}
-  //             onMouseEnter={(e) => {
-  //               e.currentTarget.style.background = "rgba(255,255,255,0.05)";
-  //               e.currentTarget.style.color = "var(--text)";
-  //             }}
-  //             onMouseLeave={(e) => {
-  //               e.currentTarget.style.background = "transparent";
-  //               e.currentTarget.style.color = "var(--muted)";
-  //             }}
-  //           >
-  //             {link}
-  //           </a>
-  //         ))}
-  //       </div>
-  //     </>
-  //   );
-  // }

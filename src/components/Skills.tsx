@@ -1,37 +1,28 @@
 "use client";
+
 import { useEffect, useRef } from "react";
 import { skills } from "@/data/skills";
 
-const colorMap: Record<string, { border: string; shadow: string; iconBg: string; bar: string }> = {
+const colorMap: Record<string, { tone: string; bar: string }> = {
   c1: {
-    border: "rgba(255,107,107,0.3)",
-    shadow: "0 20px 40px rgba(255,107,107,0.1)",
-    iconBg: "rgba(255,107,107,0.15)",
-    bar: "linear-gradient(90deg, var(--c1), var(--c2))",
+    tone: "color-mix(in srgb, var(--accent) 22%, transparent)",
+    bar: "linear-gradient(90deg, var(--accent), var(--accent-2))",
   },
   c2: {
-    border: "rgba(77,150,255,0.3)",
-    shadow: "0 20px 40px rgba(77,150,255,0.1)",
-    iconBg: "rgba(77,150,255,0.15)",
-    bar: "linear-gradient(90deg, var(--c4), var(--c5))",
+    tone: "color-mix(in srgb, var(--accent-2) 22%, transparent)",
+    bar: "linear-gradient(90deg, var(--accent-2), var(--accent-3))",
   },
   c3: {
-    border: "rgba(107,203,119,0.3)",
-    shadow: "0 20px 40px rgba(107,203,119,0.1)",
-    iconBg: "rgba(107,203,119,0.15)",
-    bar: "linear-gradient(90deg, var(--c3), var(--c4))",
+    tone: "color-mix(in srgb, var(--accent-3) 20%, transparent)",
+    bar: "linear-gradient(90deg, var(--accent-3), var(--accent-4))",
   },
   c4: {
-    border: "rgba(199,125,255,0.3)",
-    shadow: "0 20px 40px rgba(199,125,255,0.1)",
-    iconBg: "rgba(199,125,255,0.15)",
-    bar: "linear-gradient(90deg, var(--c5), var(--c1))",
+    tone: "color-mix(in srgb, var(--accent-4) 24%, transparent)",
+    bar: "linear-gradient(90deg, var(--accent-4), var(--accent))",
   },
   c5: {
-    border: "rgba(255,217,61,0.3)",
-    shadow: "0 20px 40px rgba(255,217,61,0.1)",
-    iconBg: "rgba(255,217,61,0.15)",
-    bar: "linear-gradient(90deg, var(--c2), var(--c3))",
+    tone: "color-mix(in srgb, var(--accent-5) 24%, transparent)",
+    bar: "linear-gradient(90deg, var(--accent-5), var(--accent-2))",
   },
 };
 
@@ -47,138 +38,81 @@ export default function Skills() {
       },
       { threshold: 0.1 }
     );
-    sectionRef.current?.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+
+    sectionRef.current
+      ?.querySelectorAll(".reveal")
+      .forEach((el) => observer.observe(el));
+
     return () => observer.disconnect();
   }, []);
 
   return (
-    <>
-      <style>{`
-        .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
-        @media (max-width: 768px) {
-          .skill-card { padding: 24px !important; }
-          .skill-icon { width: 36px !important; height: 36px !important; font-size: 1.1rem !important; }
-        }
-      `}</style>
+    <section ref={sectionRef} id="skills" className="section-shell section-surface">
+      <div className="section-content">
+        <div className="section-label">What I know</div>
+        <h2 className="section-title">
+          Skills and <span className="gradient-text">Technologies</span>
+        </h2>
 
-      <section
-        ref={sectionRef}
-        id="skills"
-        style={{ padding: "100px 60px", background: "var(--surface)" }}
-      >
-      <div className="section-label">What I know</div>
-      <h2
-        style={{
-          fontFamily: "var(--font-syne)",
-          fontSize: "clamp(2rem, 4vw, 3rem)",
-          fontWeight: 800,
-          letterSpacing: "-0.02em",
-          marginBottom: "60px",
-          lineHeight: 1.1,
-        }}
-      >
-        Skills & <span className="gradient-text">Technologies</span>
-      </h2>
-
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-          gap: "20px",
-        }}
-      >
-        {skills.map((skill, i) => {
-          const c = colorMap[skill.color] || colorMap.c1;
-          return (
-            <div
-              key={skill.id}
-              className="reveal"
-              style={{ transitionDelay: `${i * 80}ms` }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.transform = "translateY(-4px)";
-                el.style.borderColor = c.border;
-                el.style.boxShadow = c.shadow;
-                (el.querySelector(".top-bar") as HTMLElement).style.opacity = "1";
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.transform = "translateY(0)";
-                el.style.borderColor = "var(--border)";
-                el.style.boxShadow = "none";
-                (el.querySelector(".top-bar") as HTMLElement).style.opacity = "0";
-              }}
-            >
-              <div className="skill-card"
-                style={{
-                  background: "var(--card)",
-                  border: "1px solid var(--border)",
-                  borderRadius: "16px",
-                  padding: "28px",
-                  transition: "transform 0.3s, border-color 0.3s, box-shadow 0.3s",
-                  position: "relative",
-                  overflow: "hidden",
-                  cursor: "default",
-                }}
+        <div className="cards-grid cards-grid-skills">
+          {skills.map((skill, index) => {
+            const palette = colorMap[skill.color] || colorMap.c1;
+            return (
+              <article
+                key={skill.id}
+                className="reveal panel-card skill-card"
+                style={{ transitionDelay: `${index * 55}ms` }}
               >
-                {/* Top color bar */}
                 <div
-                  className="top-bar"
                   style={{
                     position: "absolute",
-                    top: 0, left: 0, right: 0,
-                    height: "2px",
-                    background: c.bar,
-                    opacity: 0,
-                    transition: "opacity 0.3s",
+                    inset: "0 auto auto 0",
+                    width: "100%",
+                    height: "3px",
+                    background: palette.bar,
+                    opacity: 0.9,
                   }}
                 />
-                <div className="skill-icon"
+
+                <div
                   style={{
-                    width: "44px", height: "44px",
-                    borderRadius: "10px",
-                    background: c.iconBg,
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    fontSize: "1.3rem",
-                    marginBottom: "16px",
+                    width: "42px",
+                    height: "42px",
+                    borderRadius: "12px",
+                    display: "grid",
+                    placeItems: "center",
+                    fontSize: "0.9rem",
+                    fontWeight: 700,
+                    marginBottom: "14px",
+                    background: palette.tone,
+                    color: "var(--text)",
                   }}
                 >
                   {skill.icon}
                 </div>
-                <div
+
+                <h3
                   style={{
                     fontFamily: "var(--font-syne)",
-                    fontWeight: 700,
-                    fontSize: "1rem",
+                    fontSize: "1.05rem",
                     marginBottom: "12px",
                   }}
                 >
                   {skill.name}
-                </div>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                </h3>
+
+                <div className="chip-wrap">
                   {skill.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      style={{
-                        fontSize: "0.75rem",
-                        padding: "4px 10px",
-                        borderRadius: "100px",
-                        background: "rgba(255,255,255,0.06)",
-                        color: "var(--muted)",
-                        border: "1px solid var(--border)",
-                      }}
-                    >
+                    <span key={tag} className="chip">
                       {tag}
                     </span>
                   ))}
                 </div>
-              </div>
-            </div>
-          );
-        })}
+              </article>
+            );
+          })}
+        </div>
       </div>
     </section>
-    </>
   );
 }
