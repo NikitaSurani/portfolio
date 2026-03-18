@@ -1,23 +1,23 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { DM_Sans, Syne } from "next/font/google";
+import { Plus_Jakarta_Sans, Outfit } from "next/font/google";
 
-const dmSans = DM_Sans({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-dm-sans",
-  weight: ["300", "400", "500"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
-const syne = Syne({
+const outfit = Outfit({
   subsets: ["latin"],
   variable: "--font-syne",
-  weight: ["400", "600", "700", "800"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
-  title: "Nikita Surani - Full Stack Developer",
+  title: "Nikita Surani - Software Engineer",
   description:
-    "Full Stack Developer with 3.5+ years of experience building scalable backend systems and modern web applications.",
+    "Software Engineer with 3.5+ years of experience building scalable backend systems and modern web applications.",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
@@ -33,10 +33,17 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      data-theme="dark"
-      className={`${dmSans.variable} ${syne.variable}`}
+      className={`${plusJakarta.variable} ${outfit.variable}`}
+      suppressHydrationWarning
     >
-      <body>{children}</body>
+      <body>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var t=localStorage.getItem('theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');else document.documentElement.removeAttribute('data-theme');})();`,
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }

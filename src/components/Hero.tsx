@@ -232,11 +232,11 @@ export default function Hero() {
           <h1 className="hero-title">
             Nikita Surani
             <br />
-            <span className="gradient-text">Full Stack Developer</span>
+            <span className="gradient-text">Software Engineer </span>
           </h1>
 
           <p className="hero-copy">
-            Full Stack Developer with 3.5+ years of experience building
+            Software Engineer with 3.5+ years of experience building
             production-grade backend systems in NestJS, Node.js, and TypeScript,
             with strong frontend delivery in React.js and Next.js.
           </p>

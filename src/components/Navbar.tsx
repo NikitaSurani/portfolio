@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import BrandMark from "./BrandMark";
+import ThemeToggle from "./Themetoggle";
 
 const links = [
   { label: "About", id: "about" },
@@ -62,7 +63,7 @@ export default function Navbar() {
 
   const scrollToSection = (id: string) => {
     const target = document.getElementById(id);
-    const navHeight = navRef.current?.offsetHeight ?? 76;
+    const navHeight = navRef.current?.offsetHeight ?? 64;
 
     if (!target) return;
 
@@ -114,6 +115,7 @@ export default function Navbar() {
         </ul>
 
         <div className="site-nav-actions">
+          <ThemeToggle />
           <a className="site-nav-cta" href="mailto:nikitasurani16@gmail.com">
             Hire Me
           </a>

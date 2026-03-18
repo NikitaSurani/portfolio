@@ -11,7 +11,7 @@ export default function BrandMark({ compact = false }: BrandMarkProps) {
       </div>
       <div className="brandmark-copy">
         <strong>Nikita Surani</strong>
-        <span>Full Stack Developer</span>
+        <span>Software Engineer</span>
       </div>
     </div>
   );
