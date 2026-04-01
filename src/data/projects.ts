@@ -75,7 +75,7 @@ export const projects = [
     title: "Event Management",
     description:
       "Scalable event management platform with calendar sync, recurrence workflows, and Google Calendar integration.",
-    tech: ["NestJS", "WebSocket", "PostgreSQL", "Matrix"],
+    tech: ["NestJS", "WebSocket", "PostgreSQL", "Matrix", "AWS (Lambda, API Gateway)"],
     link: "",
   },
   {
