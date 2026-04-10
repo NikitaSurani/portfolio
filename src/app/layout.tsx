@@ -33,13 +33,14 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-theme="light"
       className={`${plusJakarta.variable} ${outfit.variable}`}
       suppressHydrationWarning
     >
       <body>
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){var t=localStorage.getItem('theme');if(t==='light')document.documentElement.setAttribute('data-theme','light');else document.documentElement.removeAttribute('data-theme');})();`,
+            __html: `(function(){var t=localStorage.getItem('theme');if(t==='dark')document.documentElement.removeAttribute('data-theme');else document.documentElement.setAttribute('data-theme','light');})();`,
           }}
         />
         {children}
