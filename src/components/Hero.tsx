@@ -51,13 +51,12 @@ export default function Hero() {
           min-height: 100vh;
           display: flex;
           align-items: center;
-          padding: 132px 24px 84px;
+          padding: 132px 22px 84px;
           overflow: hidden;
         }
 
         .hero-content {
-          width: min(980px, 100%);
-          margin: 0 auto;
+          width: 100%;
           position: relative;
           z-index: 2;
         }
@@ -147,10 +146,17 @@ export default function Hero() {
           color: var(--muted);
         }
 
+        @media (max-width: 1024px) {
+          .hero {
+            padding-left: 18px;
+            padding-right: 18px;
+          }
+        }
+
         @media (max-width: 768px) {
           .hero {
             min-height: auto;
-            padding: 118px 18px 64px;
+            padding: 118px 14px 64px;
           }
 
           .hero-actions {
@@ -223,7 +229,7 @@ export default function Hero() {
           />
         ))}
 
-        <div className="hero-content">
+        <div className="hero-content section-content">
           <div className="hero-chip">
             <i />
             Available for opportunities
@@ -236,7 +242,7 @@ export default function Hero() {
           </h1>
 
           <p className="hero-copy">
-            Software Engineer with 3.5+ years of experience building
+            Software Engineer with 4+ years of experience building
             production-grade backend systems in NestJS, Node.js, and TypeScript,
             with strong frontend delivery in React.js and Next.js.
           </p>
@@ -257,7 +263,7 @@ export default function Hero() {
 
           <div className="hero-stats">
             {[
-              { value: "3.5+", label: "Years Experience" },
+              { value: "4+", label: "Years Experience" },
               { value: "10+", label: "Projects Delivered" },
               { value: "5+", label: "Core Technologies" },
             ].map((item) => (
